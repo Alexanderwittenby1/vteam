@@ -1,0 +1,25 @@
+version: '3'
+services:
+  backend:
+    image: alexanderwittenby/backendapp:latest
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    command: ["npm", "run", "server"]
+
+  frontend:
+    image: alexanderwittenby/frontendapp:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend/escooter:/app
+      - /app/node_modules
+    command: ["npm", "run", "start"]
