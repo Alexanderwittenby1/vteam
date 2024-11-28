@@ -15,6 +15,8 @@ COPY . /app
 
 # Build the Next.js app for production
 RUN npm run build
+# Kontrollera om .next-mappen skapades korrekt
+RUN ls -l .next
 
 # Expose port 3000 for the frontend server
 EXPOSE 3000
