@@ -1,11 +1,8 @@
 "use client"
 import { useState } from "react";
 import Navbar from "../../components/Navbar"; // Importera Navbar-komponenten
+import { add } from "./utils"; // Importera add-funktionen
 
-// Funktion som tar två argument och returnerar deras summa
-export function add(a: number, b: number): number {
-  return a + b;
-}
 
 export default function SumPage() {
   
