@@ -12,7 +12,9 @@ services:
     command: ["npm", "run", "server"]
 
   frontend:
-    image: alexanderwittenby/frontendapp:latest
+    build:
+      context: ./frontend/escooter  # Bygger från den lokala frontend-mappen
+      dockerfile: Dockerfile         # Valfritt om Dockerfile heter "Dockerfile"
     ports:
       - "3000:3000"
     environment:
