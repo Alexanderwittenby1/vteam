@@ -1,25 +1,59 @@
 version: '3'
 services:
   backend:
-    image: alexanderwittenby/backendapp:latest
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     ports:
       - "4000:4000"
     environment:
       - NODE_ENV=production
+      - DB_HOST=db
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
     volumes:
       - ./backend:/app
       - /app/node_modules
-    command: ["npm", "run", "server"]
+      - /sql
+    depends_on:
+      - db
+    networks:
+      - app-network
 
   frontend:
-    image: alexanderwittenby/frontendapp:latest
+    build:
+      context: ./frontend/escooter
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=production
     depends_on:
       - backend
+    networks:
+      - app-network
+
+  db:
+    image: mysql:8.0
+    container_name: mysql_container
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3307:3306"
     volumes:
-      - ./frontend/escooter:/app
-      - /app/node_modules
-    command: ["npm", "run", "start"]
+      - db-data:/var/lib/mysql
+      - ./backend/sql:/docker-entrypoint-initdb.d
+    networks:
+      - app-network
+
+volumes:
+  db-data:
+
+networks:
+  app-network:
+    driver: bridge
