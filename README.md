@@ -24,8 +24,8 @@ Innan du kan köra applikationen lokalt måste du ha följande installerat:
 1. Klona detta repository:
 
    ```bash
-   git clone https://github.com/ditt-användarnamn/scooter-uthyrning.git
-   cd scooter-uthyrning
+   git clone https://github.com/alexanderwittenby1/vteam.git
+   cd vteam
 
 
 Bygg och starta applikationen med Docker Compose:
