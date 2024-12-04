@@ -1,4 +1,4 @@
-import { add } from '../src/app/sum/page';
+import { add } from '../src/app/sum/utils';
 
 describe('add function', () => {
   test('should return the sum of two numbers', () => {
