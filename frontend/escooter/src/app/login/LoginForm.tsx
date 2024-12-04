@@ -13,7 +13,7 @@ function RegisterForm() {
     };
 
     try {
-      const response = await fetch("http://vteam-backend-1/user/register", {
+      const response = await fetch("http://vteam-backend-1/user/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
