@@ -6,7 +6,7 @@ services:
     ports:
       - "4000:4000"
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
       - DB_HOST=db
       - DB_PORT=${DB_PORT}
       - DB_USER=${DB_USER}
@@ -27,9 +27,12 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
     depends_on:
       - backend
+    volumes:
+      - ./frontend/escooter:/app
+      - /app/node_modules
     networks:
       - app-network
 
