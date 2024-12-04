@@ -34,4 +34,14 @@ Bygg och starta applikationen med Docker Compose:
 docker-compose up --build
 ```
 
+Kör detta kommandot om docker-compose visar några fel.
+
+```
+docker-compose down --volumes --rmi all
+docker-compose up --build
+```
+
+Det kan hända att backend-containern inte startar. Gå då in på din docker desktop och starta den manuellt.
+
+
 
