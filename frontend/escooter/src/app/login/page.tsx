@@ -1,6 +1,5 @@
 "use client";
-import Navbar from "../../components/Navbar"; // Importera Navbar-komponenten
-import RegisterForm from "./RegisterForm";
+import RegisterForm from "./LoginForm";
 
 import "bootstrap/dist/css/bootstrap.css";
 
