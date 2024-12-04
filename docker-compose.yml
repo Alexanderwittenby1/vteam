@@ -11,7 +11,11 @@ services:
       - DB_PORT=${DB_PORT}
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
+<<<<<<< HEAD
       - DB_NAME=scooter_sharing 
+=======
+      - DB_NAME=scooter_sharing
+>>>>>>> origin/feature/login-register
     volumes:
       - ./backend:/app
       - /app/node_modules
@@ -41,7 +45,11 @@ services:
     container_name: mysql_container
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+<<<<<<< HEAD
       MYSQL_DATABASE: scooter_sharing 
+=======
+      MYSQL_DATABASE: scooter_sharing
+>>>>>>> origin/feature/login-register
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASSWORD}
     ports:
