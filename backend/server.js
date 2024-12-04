@@ -14,7 +14,7 @@ const db = require('./config/dbConfig');
 // Importera routes
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
-const apiRoutes = require('./routes/apiroutes');
+
 const scooterRoutes = require('./routes/scooterRoutes');
 
 // Använd miljövariabler
@@ -29,8 +29,9 @@ app.use(compression());
 app.use(express.json());
 
 app.use('/auth', authRoutes);
+
+// Rutt för att skapa användare osv.
 app.use('/user', userRoutes);
-app.use('/api', apiRoutes);
 app.use('/scooter', scooterRoutes);
 
 

@@ -2,13 +2,14 @@
 -- Create User table
 CREATE TABLE User (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
     email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(100) NOT NULL,
     oauth_provider VARCHAR(20),
     balance DECIMAL(10,2) DEFAULT 0.00,
     payment_method VARCHAR(50),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
 
 -- Create City table
 CREATE TABLE City (
