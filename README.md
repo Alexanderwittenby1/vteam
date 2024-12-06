@@ -149,11 +149,11 @@ git branch -d feature/my-feature
 Översikt av Git-flödet i Teamarbete
 Här är en sammanfattning av arbetsflödet i ett Git-team:
 
-Clone repository: Hämta en kopia av repositoryt till din lokala dator.
-Skapa en ny branch för att arbeta på en funktion.
-Gör ändringar och commit dina förändringar.
-Hämta de senaste uppdateringarna från huvudgrenen och slå samman med din branch.
-Skicka upp dina ändringar till fjärrrepositoryt (push).
-Skapa en pull request för att slå samman din branch med huvudgrenen.
-Granska och slutför PR genom att slå samman den med huvudgrenen.
-Hämta de senaste ändringarna för att hålla din lokala kod uppdaterad.
+1. Clone repository: Hämta en kopia av repositoryt till din lokala dator.
+2. Skapa en ny branch för att arbeta på en funktion.
+3. Gör ändringar och commit dina förändringar.
+4. Hämta de senaste uppdateringarna från huvudgrenen och slå samman med din branch.
+5. Skicka upp dina ändringar till fjärrrepositoryt (push).
+6. Skapa en pull request för att slå samman din branch med huvudgrenen.
+7. Granska och slutför PR genom att slå samman den med huvudgrenen.
+8. Hämta de senaste ändringarna för att hålla din lokala kod uppdaterad.
