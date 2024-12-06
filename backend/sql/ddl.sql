@@ -1,6 +1,6 @@
 
 -- Create User table
-CREATE TABLE User (
+CREATE TABLE user_table (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(100) NOT NULL,
@@ -71,7 +71,7 @@ CREATE TABLE Trip (
     time_fee DECIMAL(10,2),
     parking_fee DECIMAL(10,2),
     payment_status VARCHAR(20) NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES User(user_id),
+    FOREIGN KEY (user_id) REFERENCES user_table(user_id),
     FOREIGN KEY (scooter_id) REFERENCES Scooter(scooter_id)
 );
 

@@ -1,39 +1,47 @@
-import { useState } from "react";
+"use client";
+import React, { useState } from "react";
+import { redirect } from "next/navigation"; // Importera redirect från next/navigation
 
 function RegisterForm() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Hantera formulärsändning
   const handleSubmit = async (event: React.FormEvent) => {
-    const userData = {
-      email,
-      password,
-    };
+    event.preventDefault(); // Förhindra omdirigering av sidan
+    setIsSubmitting(true);
+
+    const userData = { email, password };
 
     try {
-      const response = await fetch(
-        "http://vteam-backend-1:4000/user/register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(userData),
-        }
-      );
+      const response = await fetch("http://localhost:4000/user/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
+
+      const responseBody = await response.json();
 
       if (response.ok) {
-        console.log("User added successfully");
+        setErrorMessage(null);
+        // Använd redirect för att omdirigera till login-sidan efter lyckad registrering
+        setTimeout(() => {
+          redirect("/"); // Redirect till login-sidan
+        }, 1000); // Du kan justera fördröjningen här om du vill visa ett meddelande först
       } else {
-        console.error("Failed to add user");
-        console.log(JSON.stringify(userData));
+        setErrorMessage(
+          responseBody.message || "Något gick fel vid registreringen."
+        );
       }
-    } catch (error: unknown) {
-      if (isErrorWithMessage(error)) {
-        console.error("Error submitting form:", error.message);
-      } else {
-        console.error("An unknown error occurred");
-      }
+    } catch (error) {
+      setErrorMessage("Ett fel inträffade. Försök igen senare.");
+      console.error("An error occurred:", error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -46,10 +54,10 @@ function RegisterForm() {
               <div className="card shadow" style={{ borderRadius: "15px" }}>
                 <div className="card-body p-5">
                   <h2 className="text-uppercase text-center mb-5 accent-color-2">
-                    Login
+                    Register
                   </h2>
                   <form onSubmit={handleSubmit}>
-                    <div data-mdb-input-init className="form-outline mb-4">
+                    <div className="form-outline mb-4">
                       <input
                         type="email"
                         id="registerformemail"
@@ -63,7 +71,7 @@ function RegisterForm() {
                       </label>
                     </div>
 
-                    <div data-mdb-input-init className="form-outline mb-4">
+                    <div className="form-outline mb-4">
                       <input
                         type="password"
                         id="registerformpassword"
@@ -80,14 +88,24 @@ function RegisterForm() {
                       </label>
                     </div>
 
-                    <button type="submit" className="btn btn-primary">
-                      Login
+                    <button
+                      type="submit"
+                      className="btn btn-primary"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? "Registering..." : "Register"}
                     </button>
 
+                    {errorMessage && (
+                      <div className="alert alert-danger mt-3">
+                        {errorMessage}
+                      </div>
+                    )}
+
                     <p className="text-center">
-                      Don't have an account?{" "}
-                      <a href="/register" className="fw-bold accent-color-1">
-                        Register here
+                      Already have an account?{" "}
+                      <a href="/login" className="fw-bold accent-color-1">
+                        Login here
                       </a>
                     </p>
                   </form>
@@ -99,11 +117,6 @@ function RegisterForm() {
       </div>
     </section>
   );
-}
-
-// Type guard to check if the error is an instance of Error and has a message
-function isErrorWithMessage(error: unknown): error is Error {
-  return error instanceof Error && "message" in error;
 }
 
 export default RegisterForm;

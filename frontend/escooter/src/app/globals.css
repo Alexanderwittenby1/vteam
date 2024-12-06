@@ -4,19 +4,7 @@
 
 :root {
   --background: #ffffff;
-<<<<<<< HEAD
-  --foreground: #171717;
-  
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-=======
   --card-color: #6a6a6a;
->>>>>>> origin/feature/login-register
 }
 
 body {
@@ -25,9 +13,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-<<<<<<< HEAD
-
-=======
 .bg-color-1 {
   background-color: #ffffff;
 }
@@ -39,4 +24,3 @@ body {
 .accent-color-2 {
   color: #6d3170;
 }
->>>>>>> origin/feature/login-register

@@ -1,8 +1,8 @@
-INSERT INTO User (username, email, oauth_provider, balance, payment_method) VALUES
-('johndoe', 'johndoe@example.com', 'google', 50.00, 'credit_card'),
-('janedoe', 'janedoe@example.com', 'facebook', 30.00, 'paypal'),
-('alice', 'alice@example.com', 'twitter', 25.00, 'credit_card'),
-('bob', 'bob@example.com', 'google', 100.00, 'bank_transfer');
+INSERT INTO user_table (email, password, oauth_provider, balance, payment_method) VALUES
+('johndoe@example.com','123', 'google', 50.00, 'credit_card'),
+('janedoe@example.com','123', 'facebook', 30.00, 'paypal'),
+('alice@example.com','123', 'twitter', 25.00, 'credit_card'),
+('bob@example.com','123', 'google', 100.00, 'bank_transfer');
 
 INSERT INTO City (name, boundaries) VALUES
 ('New York', ST_GeomFromText('POLYGON((-74.25909 40.477399, -73.700171 40.477399, -73.700171 40.917577, -74.25909 40.917577, -74.25909 40.477399))')),
