@@ -13,14 +13,8 @@ RUN npm install
 # Copy the entire frontend application into the container
 COPY . /app
 
-# Build the Next.js app for production
-RUN npm run build
-
-# Kontrollera om .next-mappen skapades korrekt
-RUN ls -l .next
-
 # Expose port 3000 for the frontend server
 EXPOSE 3000
 
-# Start the production server
-CMD ["npm", "run", "start"]
+# Use npm run dev to start the Next.js app in development mode
+CMD ["npm", "run", "dev"]

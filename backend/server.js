@@ -1,57 +1,52 @@
-const express = require('express');
-const mysql = require('mysql2');
-const fs = require('fs');
-const dotenv = require('dotenv');
+const express = require("express");
+const cookieParser = require("cookie-parser");
+const compression = require("compression");
+const fs = require("fs");
+const dotenv = require("dotenv");
 const app = express();
+const cors = require("cors");
+const logEvents = require("./middleware/logEvents");
+const { log } = require("console");
+const db = require("./config/dbConfig");
+
+const userRoutes = require("./routes/userRoutes");
+const scooterRoutes = require("./routes/scooterRoutes");
 
 // Använd miljövariabler
 dotenv.config();
+app.use(
+  cors({
+    credentials: true,
+    origin: "*",
+  })
+);
 
+app.use(cookieParser());
+app.use(compression());
+app.use(express.json());
 
-const config = {
-  host: process.env.DB_HOST || 'db',
-  port: process.env.DB_PORT || 3306,
-  user: process.env.DB_USER || 'dbadm',
-  password: process.env.DB_PASSWORD || 'Passw0rd',
-  database: process.env.DB_NAME || 'scooter_sharing'
-};
+app.use("/user", userRoutes);
+app.use("/scooter", scooterRoutes);
+
+app.use(async (req, res, next) => {
+  await logEvents(req, res, next); // Vänta på att loggningen ska slutföras
+  next(); // Gå vidare till nästa middleware
+});
 
 const PORT = process.env.PORT || 4000;
 
-// Skapa en databasanslutning med en pool för bättre prestanda
-const pool = mysql.createPool(config);
-
-app.use(express.json());
-
-app.get('/', (req, res) => {
-    res.send('Hello World');
-});
-
-// Hantera förfrågningar till /scooters
-app.get('/scooters', (req, res) => {
-    pool.query('SELECT * FROM Scooter', (error, results) => {
-        if (error) {
-            console.error('Databasfel: ', error.message);
-            res.status(500).json({ error: 'Internt serverfel' });
-            return;
-        }
-        res.json(results);
-    });
-});
-
 // Starta servern
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server is running on port ${PORT}`);
 });
 
-// Hantera serveravstängning och stäng databasanslutningen
-process.on('SIGINT', () => {
-    pool.end((err) => {
-        if (err) {
-            console.error('Fel vid stängning av databasanslutning: ', err.message);
-        } else {
-            console.log('Databasanslutning stängd');
-        }
-        process.exit(0);
-    });
+process.on("SIGINT", () => {
+  db.end((err) => {
+    if (err) {
+      console.error("Fel vid stängning av databasanslutning: ", err.message);
+    } else {
+      console.log("Databasanslutning stängd");
+    }
+    process.exit(0);
+  });
 });
