@@ -1,33 +1,46 @@
+import { redirect } from "next/navigation";
 import { useState } from "react";
 
 function RegisterForm() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault(); // Prevent the default form submission behavior
-
+    setIsSubmitting(true);
     const userData = {
       email,
       password,
     };
 
     try {
-      const response = await fetch("localhost:4000/user/login", {
+      const response = await fetch("http://localhost:4000/user/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(userData),
       });
+      const responseBody = await response.json();
 
       if (response.ok) {
-        console.log("User added successfully");
+        setErrorMessage(null);
+        localStorage.setItem("token", responseBody.token); // Spara token i localStorage
+        setTimeout(() => {
+          redirect("/profile"); // Redirect till login-sidan
+        }, 1000); // Du kan justera fördröjningen här om du vill visa ett meddelande först
       } else {
-        console.error("Failed to add user");
+        setErrorMessage(
+          responseBody.message || "Något gick fel vid inloggningen."
+        );
       }
     } catch (error) {
-      console.error("Error submitting form:", error);
+      setErrorMessage("Ett fel inträffade. Försök igen senare.");
+      console.error("An error occurred:", error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -71,9 +84,19 @@ function RegisterForm() {
                       </label>
                     </div>
 
-                    <button type="submit" className="btn btn-primary">
-                      Login
+                    <button
+                      type="submit"
+                      className="btn btn-primary"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? "Registering..." : "Register"}
                     </button>
+
+                    {errorMessage && (
+                      <div className="alert alert-danger mt-3">
+                        {errorMessage}
+                      </div>
+                    )}
 
                     <p className="text-center">
                       Dont have an account?{" "}
