@@ -1,5 +1,5 @@
-import React from 'react';
-import { useScooterData } from './useScooterData';
+import React from "react";
+import { useScooterData } from "./useScooterData";
 
 const ScooterList: React.FC = () => {
   const { scooters, loading, error } = useScooterData();
@@ -16,7 +16,8 @@ const ScooterList: React.FC = () => {
             <strong>Model:</strong> {scooter.scooter_id} <br />
             <strong>Battery Level:</strong> {scooter.battery_level}% <br />
             <strong>Status:</strong> {scooter.status} <br />
-            <strong>Last Maintenance:</strong> {new Date(scooter.last_maintenance).toLocaleDateString()} <br />
+            <strong>Last Maintenance:</strong>{" "}
+            {new Date(scooter.last_maintenance).toLocaleDateString()} <br />
             {/* Lägg till andra fält som du vill visa */}
           </li>
         ))}
