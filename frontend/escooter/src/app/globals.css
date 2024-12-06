@@ -5,6 +5,7 @@
 :root {
   --background: #ffffff;
   --card-color: #6a6a6a;
+  --accent-1: #a6db33;
 }
 
 body {
@@ -14,13 +15,21 @@ body {
 }
 
 .bg-color-1 {
-  background-color: #ffffff;
+  background-color: #ffffff !important;
 }
 
-.accent-color-1 {
-  color: #a6db33;
+.bg-color-2 {
+  background-color: #f0f0f0 !important;
 }
 
-.accent-color-2 {
-  color: #6d3170;
+.bg-color-3 {
+  background-color: #33004d !important;
+}
+
+.text-accent-1 {
+  color: #a6db33 !important;
+}
+
+.text-accent-2 {
+  color: #6d3170 !important;
 }
