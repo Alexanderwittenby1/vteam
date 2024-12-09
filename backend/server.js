@@ -8,7 +8,6 @@ const cors = require("cors");
 const logEvents = require("./middleware/logEvents");
 const { log } = require("console");
 const db = require("./config/dbConfig");
-
 const userRoutes = require("./routes/userRoutes");
 const scooterRoutes = require("./routes/scooterRoutes");
 
@@ -26,7 +25,7 @@ app.use(compression());
 app.use(express.json());
 
 app.use("/user", userRoutes);
-app.use("/scooter", scooterRoutes);
+app.use("/bike", scooterRoutes);
 
 app.use(async (req, res, next) => {
   await logEvents(req, res, next); // Vänta på att loggningen ska slutföras
