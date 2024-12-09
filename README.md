@@ -49,10 +49,10 @@ Det kan hända att backend-containern inte startar. Gå då in på din docker de
 Först måste vi börja med att klona ett repo. Med detta menas att man hämtar en kopia av projektet från en fjärrserver (t.ex. GitHub, GitLab) till din lokala maskin.
 
 För att klona ett repo kör följande:
-``
+```
 git clone https://github.com/username/repo.git
 
-``
+```
 
 # Skapa och arbeta i en branch
 
@@ -61,32 +61,32 @@ Det är viktigt att alla som jobbar på projektet arbetar i separata grenar (bra
 
 # Hur man skapar en branch lokalt
 
-``
+```
 git checkout -b feature/my-feature
-``
+```
 Detta skapar en ny gren och byter till den.
 
 
 
 # För att uppdatera din gren (branch)
 
-``
+```
 git add .
 git commit -m "Description of changes made"
-``
+```
 
 # För att pusha
 
-``
+```
 git push
-``
+```
 
 Hämta uppdateringar från huvudgrenen ( Detta bör göras varje gång innan du börjar arbeta för att få de senaste uppdateringarna)
 
-``
+```
 git checkout main
 git pull origin main
-``
+```
 
 Hoppa nu tillbaka till din lokala gren
 
@@ -100,25 +100,25 @@ Hur hanterar vi mergekonflikter?
 Ibland kommer Git att inte kunna slå samman två grenar automatiskt, och då kommer du att få en merge conflict. Detta händer när två personer gör ändringar på samma ställe i filerna.
 Åtgärda merge-konflikter genom att öppna de konflikterande filerna och manuellt välja vilken kod som ska behållas.
 
-``
+```
 git add <filename>
 
-``
+```
 Commit de lösta konflikterna:
 
-``
+```
 git commit -m "Resolved merge conflict"
 
-``
+```
 
 Skicka Upp Dina Ändringar till Fjärrrepositoryt
 
 När du har gjort dina ändringar och slått samman dem med huvudgrenen, kan du skicka dem till fjärrservern (origin). Detta görs genom att "push" dina lokala commits.
 
-``
+```
 git push origin feature/my-feature
 
-``
+```
 
 När du är klar med din feature och vill slå samman din gren med huvudgrenen, gör du en Pull Request (PR)
 
@@ -133,17 +133,17 @@ När en PR har godkänts av andra teammedlemmar, kommer den att slås samman (me
 
 Följ upp med att hämta de senaste ändringarna från huvudgrenen:
 
-``
+```
 git checkout main
 git pull origin main
 
-``
+```
 Om du har en featuregren som har blivit slutförd, kan du ta bort den:
 
-``
+```
 git branch -d feature/my-feature
 
-``
+```
 
 
 Översikt av Git-flödet i Teamarbete
