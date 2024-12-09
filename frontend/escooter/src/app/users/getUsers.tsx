@@ -1,11 +1,19 @@
+"use client";
 import { useState, useEffect } from "react";
 
 interface User {
   email: string;
   password: string;
+  balance: string;
+  created_at: string;
+  is_admin: number;
+  last_login: string | null;
+  oauth_provider: string | null;
+  user_id: number;
+  payment_method: string;
 }
 
-export function getUsers() {
+export function useGetUsers() {
   const [users, setUsers] = useState<User[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -13,18 +21,26 @@ export function getUsers() {
   useEffect(() => {
     async function fetchUsers() {
       try {
-        const response = await fetch("http://localhost:4000/user");
+        const response = await fetch("http://localhost:4000/user/admin", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+
         if (!response.ok) {
           throw new Error("Något gick fel vid hämtning av data");
         }
+
         const data = await response.json();
         console.log("Data received from server:", data);
 
-        // Om data är tomt, hantera det genom att sätta tom array eller visa meddelande
-        if (data.message && data.data && Array.isArray(data.data)) {
-          setUsers(data.data);
+        // Check if the data is an array and if it's not empty
+        if (Array.isArray(data) && data.length > 0) {
+          setUsers(data);
         } else {
-          throw new Error("Felaktig datatyp mottagen från servern");
+          setError("No users found or data is malformed");
         }
       } catch (err: unknown) {
         if (err instanceof Error) {
@@ -43,4 +59,4 @@ export function getUsers() {
   return { users, error, loading };
 }
 
-export default getUsers;
+export default useGetUsers;

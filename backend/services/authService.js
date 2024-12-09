@@ -4,6 +4,7 @@ const generateToken = (user) => {
     {
       userId: user.user_id,
       email: user.email,
+      is_admin: user.is_admin,
     },
     process.env.JWT_SECRET,
     { expiresIn: "1h" }
