@@ -10,7 +10,6 @@ import {
   BsPeople,
   BsScooter,
   BsPersonCircle,
-  BsBoxArrowRight,
 } from "react-icons/bs";
 import logo from "../../public/gogo.png";
 function Sidebar() {
@@ -74,7 +73,7 @@ function Sidebar() {
           className="bi me-2"
           style={{ color: "#6d3170", width: "32px", height: "32px" }}
         />
-        <span className="fs-4 text-accent-2">Alfred</span>
+        <span className="fs-4 text-accent-2 d-flex"></span>
       </div>
     </div>
   );
