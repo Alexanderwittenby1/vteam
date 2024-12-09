@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+
 import useUsers from "./getUsers";
 
 const UserList = () => {

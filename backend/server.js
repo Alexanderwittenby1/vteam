@@ -6,8 +6,9 @@ const dotenv = require("dotenv");
 const app = express();
 const cors = require("cors");
 const logEvents = require("./middleware/logEvents");
-const { log } = require("console");
+
 const db = require("./config/dbConfig");
+
 const userRoutes = require("./routes/userRoutes");
 const scooterRoutes = require("./routes/scooterRoutes");
 

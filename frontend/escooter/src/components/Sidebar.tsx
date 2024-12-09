@@ -61,7 +61,7 @@ function Sidebar() {
         <li className="nav-item">
           <a
             className="nav-link d-flex text-accent-2 align-items-center"
-            href="#home"
+            href="/users"
           >
             <BsPeople className="bi me-2" style={{ color: "#6d3170" }} />
             Users
