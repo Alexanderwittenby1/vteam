@@ -160,3 +160,24 @@ exports.addTrip = async (req, res) => {
     res.status(500).json({ error: "Internal server error", tripData });
   }
 };
+
+// Uppdatera lösenord
+exports.updatePassword = async (req, res) => {
+  const userId = req.user.userId;
+  const { password } = req.body;
+  console.log("User id:", userId);
+  console.log("Password:", password);
+
+  if (!password) {
+    return res.status(400).json({ message: "Password is required" });
+  }
+
+  try {
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    await userModel.updateUserPassword(userId, hashedPassword);
+    res.status(200).json({ message: "Password updated successfully" });
+  } catch (error) {
+    console.error("Error updating password:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};

@@ -89,6 +89,21 @@ const addTrip = (tripData, callback) => {
   );
 };
 
+const updateUserPassword = (userId, newPassword) => {
+  return new Promise((resolve, reject) => {
+    db.query(
+      "UPDATE user_table SET password = ? WHERE user_id = ?",
+      [newPassword, userId],
+      (error, results) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(results);
+      }
+    );
+  });
+};
+
 module.exports = {
   getUserById,
   getUserByEmail,
@@ -96,4 +111,5 @@ module.exports = {
   getTripsByUserId,
   addTrip,
   getAllUsers,
+  updateUserPassword,
 };
