@@ -14,14 +14,6 @@ import {
 import logo from "../../public/gogo.png";
 
 function Sidebar() {
-  // State to control the visibility of sublinks, typed as a string or null
-  const [openSection, setOpenSection] = useState<string | null>(null);
-
-  // Toggle function for opening/closing sublinks
-  const toggleSection = (section: string): void => {
-    setOpenSection(openSection === section ? null : section);
-  };
-
   const [user, setUser] = useState(null);
 
   useEffect(() => {

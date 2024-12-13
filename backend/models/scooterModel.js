@@ -44,7 +44,19 @@ addScooterToDb = (scooterData, callback) => {
   );
 };
 
+const updateBikePositionInDb = (scooterId, latitude, longitude, callback) => {
+  const sql =
+    "UPDATE Scooter SET latitude = ?, longitude = ? WHERE scooter_id = ?";
+  db.query(sql, [latitude, longitude, scooterId], (error, results) => {
+    if (error) {
+      return callback(error, null);
+    }
+    callback(null, results);
+  });
+};
+
 module.exports = {
   getAllScootersFromdb,
   addScooterToDb,
+  updateBikePositionInDb,
 };

@@ -22,20 +22,29 @@ const getUserById = (userId, callback) => {
   );
 };
 
-const updateUser = (userId, email, password, role, callback) => {
-  db.query(
-    "UPDATE user_table SET email = ?, password = ?, role = ? WHERE user_id = ?;",
-    [email, password, role, userId],
-    (error, results) => {
-      if (error) {
-        return callback(error, null);
-      }
-      return callback(null, results);
-    }
+const updateUser = async (userId, userData) => {
+  const fields = [];
+  const values = [];
+
+  for (const [key, value] of Object.entries(userData)) {
+    fields.push(`${key} = ?`);
+    values.push(value);
+  }
+
+  values.push(userId);
+
+  const sql = `UPDATE user_table SET ${fields.join(", ")} WHERE user_id = ?`;
+  await db.query(sql, values);
+
+  const [updatedUser] = await db.query(
+    "SELECT * FROM user_table WHERE user_id = ?",
+    [userId]
   );
+  return updatedUser[0];
 };
 
 module.exports = {
   getAllUsers,
   getUserById,
+  updateUser,
 };
