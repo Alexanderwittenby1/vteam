@@ -13,6 +13,15 @@ const getUserById = (userId, callback) => {
   );
 };
 
+const getAllUsers = (callback) => {
+  db.query("SELECT * FROM user_table", (error, results) => {
+    if (error) {
+      return callback(error, null);
+    }
+    return callback(null, results);
+  });
+};
+
 const getUserByEmail = (email) => {
   return new Promise((resolve, reject) => {
     db.query(
@@ -39,15 +48,6 @@ const createUser = (userData, callback) => {
       return callback(null, results.insertId);
     }
   );
-};
-
-const getAllUsers = (callback) => {
-  db.query("SELECT * FROM user_table", (error, results) => {
-    if (error) {
-      return callback(error, null);
-    }
-    return callback(null, results);
-  });
 };
 
 const getTripsByUserId = (userId, callback) => {
@@ -89,11 +89,27 @@ const addTrip = (tripData, callback) => {
   );
 };
 
+const updateUserPassword = (userId, newPassword) => {
+  return new Promise((resolve, reject) => {
+    db.query(
+      "UPDATE user_table SET password = ? WHERE user_id = ?",
+      [newPassword, userId],
+      (error, results) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(results);
+      }
+    );
+  });
+};
+
 module.exports = {
   getUserById,
   getUserByEmail,
   createUser,
-  getAllUsers,
   getTripsByUserId,
   addTrip,
+  getAllUsers,
+  updateUserPassword,
 };

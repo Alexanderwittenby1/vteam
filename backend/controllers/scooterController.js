@@ -8,3 +8,12 @@ exports.getAll = (req, res) => {
     res.status(200).json(scooters);
   });
 };
+
+exports.add = (req, res) => {
+  scootermodel.addScooterToDb(req.body, (error, result) => {
+    if (error) {
+      return res.status(500).json({ error: "Internt serverfel" });
+    }
+    res.status(200).json(result);
+  });
+};
