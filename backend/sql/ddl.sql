@@ -7,7 +7,9 @@ CREATE TABLE user_table (
     oauth_provider VARCHAR(20),
     balance DECIMAL(10,2) DEFAULT 0.00,
     payment_method VARCHAR(50),
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    is_admin BOOLEAN DEFAULT FALSE,
+    last_login DATETIME 
 );
 
 
