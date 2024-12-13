@@ -16,11 +16,22 @@ const UserList = () => {
   return (
     <div>
       <h2>User List</h2>
-      <ul>
-        {users.map((user, index) => (
-          <li key={index}>{user.email}</li>
-        ))}
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Balance</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user, index) => (
+            <tr key={index}>
+              <td>{user.email}</td>
+              <td>{user.balance}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

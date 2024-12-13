@@ -10,7 +10,8 @@ router.post("/register", userController.registerUser);
 // Rutt för att logga in en användare (utan inloggning)
 router.post("/login", userController.loginUser);
 
-// Rutt för att hämta användarens profil (kräver att användaren är inloggad)
+// rutter för att hämta användare
+
 router.get("/profile", verifyToken, userController.getUserByEmail);
 
 // Rutt för att hämta alla trips för en användare (kräver att användaren är inloggad)
@@ -20,4 +21,8 @@ router.get("/trips", verifyToken, userController.getTripsByUserId);
 router.post("/addTrip", verifyToken, userController.addTrip);
 
 router.get("/admin", verifyToken, isAdmin, userController.getAllUsers);
+
+// Rutt för att uppdatera lösenordet
+router.put("/updatePassword", verifyToken, userController.updatePassword);
+
 module.exports = router;
