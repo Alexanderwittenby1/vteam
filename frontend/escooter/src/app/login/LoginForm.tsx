@@ -24,10 +24,12 @@ function RegisterForm() {
         body: JSON.stringify(userData),
       });
       const responseBody = await response.json();
+      console.log("Response from server:", responseBody);
 
       if (response.ok) {
         setErrorMessage(null);
-        localStorage.setItem("token", responseBody.token); // Spara token i localStorage
+        localStorage.setItem("token", responseBody.token);
+        localStorage.setItem("is_Admin", responseBody.is_Admin); // Spara token i localStorage
         setTimeout(() => {
           redirect("/profile"); // Redirect till login-sidan
         }, 1000); // Du kan justera fördröjningen här om du vill visa ett meddelande först
