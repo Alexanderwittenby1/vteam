@@ -1,9 +1,9 @@
 -- Infoga användardata
-INSERT INTO user_table (email, password, oauth_provider, balance, payment_method, is_admin, last_login) VALUES
-('johndoe@example.com', '123', 'google', 50.00, 'credit_card', FALSE, NULL),
-('janedoe@example.com', '123', 'facebook', 30.00, 'paypal', FALSE, NULL),
-('alice@example.com', '123', 'twitter', 25.00, 'credit_card', FALSE, NULL),
-('bob@example.com', '123', 'google', 100.00, 'bank_transfer', FALSE, NULL);
+INSERT INTO user_table (email, password, oauth_provider, balance, payment_method, is_admin, role, last_login) VALUES
+('johndoe@example.com', '123', 'google', 50.00, 'credit_card', FALSE,'user', NULL),
+('janedoe@example.com', '123', 'facebook', 30.00, 'paypal', FALSE,'user', NULL),
+('alice@example.com', '123', 'twitter', 25.00, 'credit_card', FALSE,'user', NULL),
+('bob@example.com', '123', 'google', 100.00, 'bank_transfer', FALSE,'user', NULL);
 
 INSERT INTO City (name, boundaries) VALUES
 ('New York', ST_GeomFromText('POLYGON((-74.25909 40.477399, -73.700171 40.477399, -73.700171 40.917577, -74.25909 40.917577, -74.25909 40.477399))')),
