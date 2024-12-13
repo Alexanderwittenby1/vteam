@@ -1,39 +1,24 @@
 "use client";
 
 import useUsers from "./getUsers";
+import Sidebar from "../../components/Sidebar";
+import UserListCard from "./UserListCard";
 
-const UserList = () => {
-  const { users, error, loading } = useUsers();
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
+function UserList() {
   return (
-    <div>
-      <h2>User List</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Email</th>
-            <th>Balance</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user, index) => (
-            <tr key={index}>
-              <td>{user.email}</td>
-              <td>{user.balance}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div
+      className="d-flex p-3 bg-color-2"
+      style={{ height: "calc(100vh + 0px)" }}
+    >
+      <Sidebar />
+      <div
+        className="p-3 d-flex justify-content-around"
+        style={{ width: "100%", height: "100vh" }}
+      >
+        <UserListCard />
+      </div>
     </div>
   );
-};
+}
 
 export default UserList;
