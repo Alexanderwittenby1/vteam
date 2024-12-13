@@ -6,4 +6,6 @@ router.get("/all", scooterController.getAll);
 
 router.post("/add", scooterController.add);
 
+router.put("/updateBikePosition/:id", scooterController.updateBikePosition);
+
 module.exports = router;
