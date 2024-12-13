@@ -15,15 +15,23 @@ body {
 }
 
 .bg-color-1 {
-  background-color: #ffffff !important;
+  background: #ffffff;
 }
 
 .bg-color-2 {
-  background-color: #f0f0f0 !important;
+  background-color: #d8e9e0 !important;
 }
 
 .bg-color-3 {
-  background-color: #33004d !important;
+  background-color: #6d3170 !important;
+}
+
+.bg-color-4 {
+  background-color: #a6db33 !important;
+}
+
+.text-color-1 {
+  color: #ffffff !important;
 }
 
 .text-accent-1 {
