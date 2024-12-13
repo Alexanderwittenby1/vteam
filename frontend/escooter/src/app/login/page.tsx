@@ -1,3 +1,4 @@
+"use client";
 import RegisterForm from "./LoginForm";
 
 import "bootstrap/dist/css/bootstrap.css";

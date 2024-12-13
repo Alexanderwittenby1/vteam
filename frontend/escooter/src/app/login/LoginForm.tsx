@@ -52,7 +52,7 @@ function RegisterForm() {
             <div className="col-12 col-md-9-col-lg-7 col-xl-6">
               <div className="card shadow" style={{ borderRadius: "15px" }}>
                 <div className="card-body p-5">
-                  <h2 className="text-uppercase text-center mb-5 accent-color-2">
+                  <h2 className="text-uppercase text-center mb-5 text-accent-2">
                     Login
                   </h2>
                   <form onSubmit={handleSubmit}>
@@ -89,7 +89,7 @@ function RegisterForm() {
                       className="btn btn-primary"
                       disabled={isSubmitting}
                     >
-                      {isSubmitting ? "Registering..." : "Register"}
+                      {isSubmitting ? "Login..." : "Login"}
                     </button>
 
                     {errorMessage && (
@@ -100,7 +100,7 @@ function RegisterForm() {
 
                     <p className="text-center">
                       Dont have an account?{" "}
-                      <a href="/register" className="fw-bold accent-color-1">
+                      <a href="/register" className="fw-bold text-accent-1">
                         Register here
                       </a>
                     </p>
