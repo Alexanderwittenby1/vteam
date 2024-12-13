@@ -9,7 +9,8 @@ const userRoutes = require("./routes/userRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const scooterRoutes = require("./routes/scooterRoutes");
 const stationRoutes = require("./routes/stationRoutes");
-
+const passport = require("./config/passportConfig");
+const session = require("express-session");
 dotenv.config();
 const app = express();
 
@@ -19,7 +20,8 @@ app.use(
     origin: "*",
   })
 );
-
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(cookieParser());
 app.use(compression());
 app.use(express.json());

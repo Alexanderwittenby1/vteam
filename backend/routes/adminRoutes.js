@@ -11,6 +11,6 @@ router.get("/profile/:id", verifyToken, isAdmin, adminController.getUserById);
 
 // uppdatera en annan användares profil
 
-router.put("/update/:id", verifyToken, isAdmin, adminController.updateUser);
+router.put("/updateUser/:id", verifyToken, isAdmin, adminController.updateUser);
 
 module.exports = router;

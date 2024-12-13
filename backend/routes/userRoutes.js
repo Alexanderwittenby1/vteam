@@ -3,6 +3,7 @@ const router = express.Router();
 const userController = require("../controllers/userController");
 const verifyToken = require("../middleware/autMiddleware");
 const isAdmin = require("../middleware/adminMiddleware");
+const passport = require("passport");
 
 // Rutt för att registrera en användare (utan inloggning)
 router.post("/register", userController.registerUser);
@@ -24,5 +25,19 @@ router.get("/admin", verifyToken, isAdmin, userController.getAllUsers);
 
 // Rutt för att uppdatera lösenordet
 router.put("/updatePassword", verifyToken, userController.updatePassword);
+
+// Google OAuth routes
+router.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["email", "profile"] })
+);
+
+router.get(
+  "/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  (req, res) => {
+    res.redirect("/profile");
+  }
+);
 
 module.exports = router;
