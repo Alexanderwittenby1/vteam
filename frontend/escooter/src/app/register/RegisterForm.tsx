@@ -16,7 +16,7 @@ function RegisterForm() {
     const userData = { email, password };
 
     try {
-      const response = await fetch("http://localhost:4000/send", {
+      const response = await fetch("http://localhost:4000/user/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
