@@ -74,6 +74,8 @@ exports.loginUser = async (req, res) => {
     const jwtToken = generateToken(user);
     console.log("JWT Token:", jwtToken);
 
+    await userModel.updateLastLogin(user.user_id);
+
     res.status(200).json({
       message: "Login successful",
       token: jwtToken,

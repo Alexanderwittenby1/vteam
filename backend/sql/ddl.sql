@@ -89,6 +89,8 @@ CREATE TABLE ScooterLog (
     FOREIGN KEY (scooter_id) REFERENCES Scooter(scooter_id)
 );
 
+
+
 -- Create indexes for better query performance
 CREATE INDEX idx_scooter_city ON Scooter(city_id);
 CREATE INDEX idx_station_city ON ChargingStation(city_id);
