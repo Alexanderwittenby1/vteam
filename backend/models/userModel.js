@@ -104,6 +104,12 @@ const updateUserPassword = (userId, newPassword) => {
   });
 };
 
+const updateLastLogin = async (userId) => {
+  db.query("UPDATE user_table SET last_login = NOW() WHERE user_id = ?", [
+    userId,
+  ]);
+};
+
 module.exports = {
   getUserById,
   getUserByEmail,
@@ -112,4 +118,5 @@ module.exports = {
   addTrip,
   getAllUsers,
   updateUserPassword,
+  updateLastLogin,
 };

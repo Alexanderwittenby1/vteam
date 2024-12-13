@@ -23,3 +23,35 @@ exports.getUserById = async (req, res) => {
     res.status(200).json(user);
   });
 };
+
+exports.updateUser = async (req, res) => {
+  const userId = req.params.id;
+  const { email, password, role } = req.body;
+
+  if (!userId) {
+    return res.status(400).json({ message: "User ID is required" });
+  }
+
+  const userData = {};
+
+  if (email) {
+    userData.email = email;
+  }
+
+  if (password) {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    userData.password = hashedPassword;
+  }
+
+  if (role) {
+    userData.role = role;
+  }
+
+  try {
+    const updatedUser = await adminModel.updateUser(userId, userData);
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
