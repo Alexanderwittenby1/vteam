@@ -22,6 +22,19 @@ const getUserById = (userId, callback) => {
   );
 };
 
+const updateUser = (userId, email, password, role, callback) => {
+  db.query(
+    "UPDATE user_table SET email = ?, password = ?, role = ? WHERE user_id = ?;",
+    [email, password, role, userId],
+    (error, results) => {
+      if (error) {
+        return callback(error, null);
+      }
+      return callback(null, results);
+    }
+  );
+};
+
 module.exports = {
   getAllUsers,
   getUserById,

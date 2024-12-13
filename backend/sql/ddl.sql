@@ -9,6 +9,7 @@ CREATE TABLE user_table (
     payment_method VARCHAR(50),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     is_admin BOOLEAN DEFAULT FALSE,
+    role VARCHAR(20) DEFAULT 'user',
     last_login DATETIME 
 );
 

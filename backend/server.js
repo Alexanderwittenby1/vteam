@@ -8,7 +8,7 @@ const db = require("./config/dbConfig");
 const userRoutes = require("./routes/userRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const scooterRoutes = require("./routes/scooterRoutes");
-const userController = require("./controllers/userController");
+const stationRoutes = require("./routes/stationRoutes");
 
 dotenv.config();
 const app = express();
@@ -27,6 +27,7 @@ app.use(express.json());
 app.use("/user", userRoutes);
 app.use("/bike", scooterRoutes);
 app.use("/admin", adminRoutes);
+app.use("/station", stationRoutes);
 
 app.use(async (req, res, next) => {
   await logEvents(req, res, next);

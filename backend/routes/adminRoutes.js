@@ -9,4 +9,8 @@ router.get("/", verifyToken, isAdmin, adminController.getAllUsers);
 // Route to get a user by ID
 router.get("/profile/:id", verifyToken, isAdmin, adminController.getUserById);
 
+// uppdatera en annan användares profil
+
+router.put("/update/:id", verifyToken, isAdmin, adminController.updateUser);
+
 module.exports = router;
