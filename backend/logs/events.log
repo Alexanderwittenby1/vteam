@@ -127,6 +127,7 @@
 2024-12-06 15:37:37 - POST /user/trips - 172.18.0.1
 2024-12-09 12:15:53 - POST /user/profile - 172.18.0.1
 2024-12-09 12:58:35 - POST /user/profile - 172.18.0.1
+<<<<<<< Updated upstream
 2024-12-09 14:38:39 - GET /admin/users - 172.18.0.1
 2024-12-09 14:55:32 - GET /admin/users - 172.18.0.1
 2024-12-09 14:56:07 - GET /admin/users - 172.18.0.1
@@ -162,3 +163,7 @@
 2024-12-13 14:56:36 - PUT /bike/updateBikePosition/1 - 172.18.0.1
 2024-12-13 14:57:26 - PUT /bike/updateBikePosition/1 - 172.18.0.1
 2024-12-13 14:57:42 - PUT /bike/updateBikePosition/1 - 172.18.0.1
+=======
+2024-12-13 18:21:37 - GET /scooter/all - 192.168.65.1
+2024-12-13 18:21:37 - GET /scooter/all - 192.168.65.1
+>>>>>>> Stashed changes
