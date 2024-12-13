@@ -1,4 +1,4 @@
-const db = require("../config/dbConfig"); // Importera din databasanslutning
+const db = require("../config/dbConfig");
 
 const getUserById = (userId, callback) => {
   db.query(
@@ -13,7 +13,15 @@ const getUserById = (userId, callback) => {
   );
 };
 
-// Funktion för att hämta en användare med e-post
+const getAllUsers = (callback) => {
+  db.query("SELECT * FROM user_table", (error, results) => {
+    if (error) {
+      return callback(error, null);
+    }
+    return callback(null, results);
+  });
+};
+
 const getUserByEmail = (email) => {
   return new Promise((resolve, reject) => {
     db.query(
@@ -29,35 +37,79 @@ const getUserByEmail = (email) => {
   });
 };
 
-// Funktion för att skapa en ny användare
 const createUser = (userData, callback) => {
   db.query(
     "INSERT INTO user_table SET email = ?, password = ?",
     [userData.email, userData.password],
     (error, results) => {
       if (error) {
-        return callback(error, null); // Skicka error till callback
+        return callback(error, null);
       }
-      return callback(null, results); // Skicka resultatet (userId) till callback
+      return callback(null, results.insertId);
     }
   );
 };
 
-// Funktion för att hämta alla användare
-
-const getAllUsers = (callback) => {
-  db.query("SELECT * FROM user_table", (error, results) => {
-    if (error) {
-      return callback(error, null);
+const getTripsByUserId = (userId, callback) => {
+  db.query(
+    "SELECT * FROM Trip WHERE user_id = ?",
+    [userId],
+    (error, results) => {
+      if (error) {
+        return callback(error, null);
+      }
+      return callback(null, results);
     }
-    return callback(null, results);
+  );
+};
+
+const addTrip = (tripData, callback) => {
+  db.query(
+    "INSERT INTO Trip (user_id, scooter_id, start_time, end_time, start_location, end_location, distance, cost, base_fee, time_fee, parking_fee, payment_status) VALUES (?, ?, ?, ?, ST_GeomFromText(?), ST_GeomFromText(?), ?, ?, ?, ?, ?, ?)",
+    [
+      tripData.user_id,
+      tripData.scooter_id,
+      tripData.start_time,
+      tripData.end_time,
+      `POINT(${tripData.start_location.lat} ${tripData.start_location.lng})`,
+      `POINT(${tripData.end_location.lat} ${tripData.end_location.lng})`,
+      tripData.distance,
+      tripData.cost,
+      tripData.base_fee,
+      tripData.time_fee,
+      tripData.parking_fee,
+      tripData.payment_status,
+    ],
+    (error, results) => {
+      if (error) {
+        return callback(error, null);
+      }
+      return callback(null, results.insertId);
+    }
+  );
+};
+
+const updateUserPassword = (userId, newPassword) => {
+  return new Promise((resolve, reject) => {
+    db.query(
+      "UPDATE user_table SET password = ? WHERE user_id = ?",
+      [newPassword, userId],
+      (error, results) => {
+        if (error) {
+          return reject(error);
+        }
+        return resolve(results);
+      }
+    );
   });
 };
 
-// Exportera funktionerna så att de kan användas i andra filer
 module.exports = {
   getUserById,
   getUserByEmail,
   createUser,
+  getTripsByUserId,
+  addTrip,
   getAllUsers,
+  updateUserPassword,
 };

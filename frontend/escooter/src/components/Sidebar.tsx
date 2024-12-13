@@ -10,7 +10,6 @@ import {
   BsPeople,
   BsScooter,
   BsPersonCircle,
-  BsBoxArrowRight,
 } from "react-icons/bs";
 import logo from "../../public/gogo.png";
 
