@@ -2,7 +2,6 @@ const userModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const generateToken = require("../services/authService");
-const isAdmin = require("../middleware/adminMiddleware");
 
 exports.getUserByEmail = async (req, res) => {
   const email = req.user.email;
@@ -73,6 +72,8 @@ exports.loginUser = async (req, res) => {
 
     const jwtToken = generateToken(user);
     console.log("JWT Token:", jwtToken);
+
+    await userModel.updateLastLogin(user.user_id);
 
     res.status(200).json({
       message: "Login successful",
