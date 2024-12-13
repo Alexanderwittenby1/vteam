@@ -2,7 +2,6 @@ const userModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const generateToken = require("../services/authService");
-const isAdmin = require("../middleware/adminMiddleware");
 
 exports.getUserByEmail = async (req, res) => {
   const email = req.user.email;

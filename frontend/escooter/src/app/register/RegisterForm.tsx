@@ -16,7 +16,7 @@ function RegisterForm() {
     const userData = { email, password };
 
     try {
-      const response = await fetch("http://localhost:4000/send", {
+      const response = await fetch("http://localhost:4000/user/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -53,7 +53,7 @@ function RegisterForm() {
             <div className="col-12 col-md-9-col-lg-7 col-xl-6">
               <div className="card shadow" style={{ borderRadius: "15px" }}>
                 <div className="card-body p-5">
-                  <h2 className="text-uppercase text-center mb-5 accent-color-2">
+                  <h2 className="text-uppercase text-center mb-5 text-accent-2">
                     Register
                   </h2>
                   <form onSubmit={handleSubmit}>
@@ -104,7 +104,7 @@ function RegisterForm() {
 
                     <p className="text-center">
                       Already have an account?{" "}
-                      <a href="/login" className="fw-bold accent-color-1">
+                      <a href="/login" className="fw-bold text-accent-1">
                         Login here
                       </a>
                     </p>
