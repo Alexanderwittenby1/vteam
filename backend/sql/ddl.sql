@@ -9,6 +9,7 @@ CREATE TABLE user_table (
     payment_method VARCHAR(50),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     is_admin BOOLEAN DEFAULT FALSE,
+    role VARCHAR(20) DEFAULT 'user',
     last_login DATETIME 
 );
 
@@ -88,6 +89,8 @@ CREATE TABLE ScooterLog (
     event_type VARCHAR(50) NOT NULL,
     FOREIGN KEY (scooter_id) REFERENCES Scooter(scooter_id)
 );
+
+
 
 -- Create indexes for better query performance
 CREATE INDEX idx_scooter_city ON Scooter(city_id);
