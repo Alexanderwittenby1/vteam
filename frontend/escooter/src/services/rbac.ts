@@ -5,6 +5,13 @@ export const roles = {
 };
 
 export const permissions = {
-  adminDash: [roles.ADMIN],
-  userDash: [roles.USER],
+  adminView: [roles.ADMIN],
+  userView: [roles.USER],
+};
+
+export const hasPermission = (
+  role: string,
+  feature: keyof typeof permissions
+) => {
+  return permissions[feature]?.includes(role);
 };
