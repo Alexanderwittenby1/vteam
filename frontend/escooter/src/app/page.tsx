@@ -1,4 +1,4 @@
-import Sidebar from "@/components/Sidebar";
+import Sidebar from "@/components/sidebar/Sidebar";
 import Navbar from "../components/Navbar"; // Importera Navbar-komponenten
 
 export default function Home() {

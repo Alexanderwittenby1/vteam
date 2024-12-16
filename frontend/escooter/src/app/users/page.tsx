@@ -1,8 +1,10 @@
 "use client";
 
 import useUsers from "./getUsers";
-import Sidebar from "../../components/Sidebar";
+import React, { useState, useEffect } from "react";
+import Sidebar from "../../components/sidebar/Sidebar";
 import UserListCard from "./UserListCard";
+import { fetchUserData } from "../../services/fetchUserData";
 
 function UserList() {
   return (
