@@ -1,5 +1,5 @@
 "use client";
-import Sidebar from "@/components/Sidebar";
+import Sidebar from "@/components/sidebar/Sidebar";
 import Navbar from "../../components/Navbar"; // Importera Navbar-komponenten
 import ScooterList from "../../components/scooterData/scooterlist"; // Importera ScooterList-komponenten
 
