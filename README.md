@@ -91,7 +91,7 @@ git pull origin main
 Hoppa nu tillbaka till din lokala gren
 
 ``
-git checkout feature/my-feature
+git checkout <din branch>
 git merge main
 ``
 
