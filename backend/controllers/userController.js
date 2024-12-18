@@ -182,3 +182,21 @@ exports.updatePassword = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+
+exports.addMoney = async (req, res) => {
+  const userId = req.user.userId;
+  const { amount } = req.body;
+
+  if (!amount) {
+    return res.status(400).json({ message: "Amount is required" });
+  }
+
+  try {
+    await userModel.addMoney(userId, amount);
+    res.status(200).json({ message: "Money added successfully" });
+  } catch (error) {
+    console.error("Error adding money:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
