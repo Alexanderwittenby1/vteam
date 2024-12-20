@@ -1,3 +1,4 @@
+"use client";
 export const fetchUserData = async () => {
   try {
     const response = await fetch("http://localhost:4000/user/profile", {
@@ -10,7 +11,6 @@ export const fetchUserData = async () => {
 
     if (response.ok) {
       const data = await response.json();
-      console.log(data, "fetch");
       return data;
     } else {
       console.error("Failed to fetch profile", response.statusText);

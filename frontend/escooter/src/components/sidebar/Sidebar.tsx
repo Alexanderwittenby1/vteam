@@ -1,5 +1,3 @@
-"use client";
-
 import "bootstrap/dist/css/bootstrap.css";
 import React, { useState, useEffect } from "react";
 import AdminSidebar from "../sidebar/AdminSidebar";
@@ -17,22 +15,18 @@ import logo from "../../../public/gogo.png";
 import { fetchUserData } from "../../services/fetchUserData";
 import { hasPermission } from "@/services/rbac";
 
-function Sidebar() {
-  const [user, setUser] = useState(null);
+const Sidebar = async () => {
+  const token = localStorage.getItem("token");
+  const res = await fetch("http://localhost:4000/user/profile", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const user = await res.json();
 
-  useEffect(() => {
-    const getUserData = async () => {
-      const userData = await fetchUserData();
-      setUser(userData);
-      console.log(userData, "sidebar");
-    };
-
-    getUserData();
-  }, []);
-
-  if (!user) {
-    return <p>Loading...</p>;
-  }
+  console.log(user);
 
   return (
     <div
@@ -52,10 +46,10 @@ function Sidebar() {
           className="bi me-2"
           style={{ color: "#6d3170", width: "32px", height: "32px" }}
         />
-        <span className="fs-4 text-accent-2">{user.email.split("@")[0]}</span>
+        <span className="fs-4 text-accent-2">{user.email}</span>
       </div>
     </div>
   );
-}
+};
 
 export default Sidebar;

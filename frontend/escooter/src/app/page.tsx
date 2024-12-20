@@ -1,30 +1,30 @@
-import React from 'react';
-import Image from 'next/image';
-import Navbar from '@/components/Navbar';
+import React from "react";
+import Image from "next/image";
+import Navbar from "@/components/Navbar";
 
 const HomePage = () => {
   const newsItems = [
     {
       image: "/globe.svg",
       title: "Sustainable Urban Transit Summit 2024",
-      description: "Join us for the future of urban mobility"
+      description: "Join us for the future of urban mobility",
     },
     {
       image: "/window.svg",
       title: "New Parking Zones Added",
-      description: "Expanding our service areas"
+      description: "Expanding our service areas",
     },
     {
       image: "/file.svg",
       title: "Safety First: Our Commitment",
-      description: "Learn about our safety initiatives"
-    }
+      description: "Learn about our safety initiatives",
+    },
   ];
 
   return (
     <div className="min-h-screen">
       <Navbar />
-      
+
       <div className="relative h-screen">
         <div className="absolute inset-0">
           <Image
@@ -64,9 +64,13 @@ const HomePage = () => {
                 />
               </div>
               <div className="mt-8">
-                <h3 className="text-2xl font-semibold mb-4">Easy way to move around</h3>
+                <h3 className="text-2xl font-semibold mb-4">
+                  Easy way to move around
+                </h3>
                 <p className="text-gray-600">
-                  Unlock a scooter and experience the freedom of effortless urban mobility. Perfect for both daily commutes and leisure rides.
+                  Unlock a scooter and experience the freedom of effortless
+                  urban mobility. Perfect for both daily commutes and leisure
+                  rides.
                 </p>
               </div>
             </div>
@@ -80,9 +84,12 @@ const HomePage = () => {
                 />
               </div>
               <div className="mt-8">
-                <h3 className="text-2xl font-semibold mb-4">Available everywhere</h3>
+                <h3 className="text-2xl font-semibold mb-4">
+                  Available everywhere
+                </h3>
                 <p className="text-gray-600">
-                  Find our scooters throughout the city. Park in designated zones for a smoother experience.
+                  Find our scooters throughout the city. Park in designated
+                  zones for a smoother experience.
                 </p>
               </div>
             </div>
@@ -92,28 +99,38 @@ const HomePage = () => {
 
       <div className="bg-gray-50 py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-bold text-center mb-16">Together for a better tomorrow</h2>
+          <h2 className="text-4xl font-bold text-center mb-16">
+            Together for a better tomorrow
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             <div className="text-center">
               <div className="bg-white rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 shadow-lg">
                 <span className="text-3xl">🛴</span>
               </div>
-              <h3 className="text-xl font-semibold mb-4">Accessible mobility</h3>
+              <h3 className="text-xl font-semibold mb-4">
+                Accessible mobility
+              </h3>
               <p className="text-gray-600">Easy-to-use scooters for everyone</p>
             </div>
             <div className="text-center">
               <div className="bg-white rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 shadow-lg">
                 <span className="text-3xl">🌱</span>
               </div>
-              <h3 className="text-xl font-semibold mb-4">Eco-friendly transport</h3>
+              <h3 className="text-xl font-semibold mb-4">
+                Eco-friendly transport
+              </h3>
               <p className="text-gray-600">Zero emissions for a cleaner city</p>
             </div>
             <div className="text-center">
               <div className="bg-white rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 shadow-lg">
                 <span className="text-3xl">🏙️</span>
               </div>
-              <h3 className="text-xl font-semibold mb-4">Smart city integration</h3>
-              <p className="text-gray-600">Seamlessly connected urban mobility</p>
+              <h3 className="text-xl font-semibold mb-4">
+                Smart city integration
+              </h3>
+              <p className="text-gray-600">
+                Seamlessly connected urban mobility
+              </p>
             </div>
           </div>
         </div>
