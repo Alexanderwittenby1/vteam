@@ -18,8 +18,7 @@ function Sidebar() {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const token = localStorage.getItem("token"); // Hämta token från localStorage
-
+     const token = sessionStorage.getItem("token"); // Hämta token från sessionStorage
       if (!token) {
         // Om det inte finns någon token, omdirigera användaren till login
         window.location.href = "/login"; // Du kan också använda Next.js router för omdirigering

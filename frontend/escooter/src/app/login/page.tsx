@@ -1,15 +1,9 @@
-"use client";
-import RegisterForm from "./LoginForm";
-import Navbar from '@/components/Navbar';
+
+import LoginForm from "./LoginForm";
 import "bootstrap/dist/css/bootstrap.css";
 
-export default function register() {
+export default function Page() {
   return (
-    <div>
-      <Navbar />
-    <div>
-      <RegisterForm />
-    </div>
-    </div>
+      <LoginForm />
   );
 }

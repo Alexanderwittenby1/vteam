@@ -188,3 +188,11 @@
 2024-12-18 16:13:56 - GET /scooter/all - 172.18.0.1
 2024-12-18 16:15:25 - GET /scooter/all - 172.18.0.1
 2024-12-18 16:15:25 - GET /scooter/all - 172.18.0.1
+2024-12-19 11:12:47 - GET /user/create-checkout-session - 172.18.0.1
+2024-12-19 11:32:14 - GET /user/create-checkout-session - 172.18.0.1
+2024-12-19 11:38:21 - GET /user/create-checkout-session - 172.18.0.1
+2024-12-19 12:07:02 - GET / - 172.18.0.1
+2024-12-19 16:49:06 - GET / - 172.18.0.1
+2024-12-19 19:18:29 - GET /scooter/all - 172.18.0.1
+2024-12-19 19:18:29 - GET /scooter/all - 172.18.0.1
+2024-12-19 19:18:36 - GET /scooter/all - 172.18.0.1

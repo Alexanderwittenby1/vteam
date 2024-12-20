@@ -71,18 +71,24 @@ exports.loginUser = async (req, res) => {
     }
 
     const jwtToken = generateToken(user);
-    console.log("JWT Token:", jwtToken);
-
     await userModel.updateLastLogin(user.user_id);
 
-    res.status(200).json({
+    // Skicka tillbaka JWT-token som en HttpOnly cookie
+    res.cookie("token", jwtToken, {
+      httpOnly: true,
+      secure: false,  // Testa utan secure om du inte använder HTTPS under utveckling
+      maxAge: 3600000, 
+      sameSite: "Lax",  // Prova att sätta till "Lax" eller "None"
+    });
+    console.log("Token cookie set:", jwtToken); // För att kolla om cookien sätts
+
+    return res.status(200).json({
       message: "Login successful",
-      token: jwtToken,
-      isAdmin: user.is_admin,
+      role: user.role, 
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
