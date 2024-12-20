@@ -1,7 +1,6 @@
 // src/app/profile/page.tsx
 "use client";
 
-import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
 import Sidebar from "../../components/sidebar/Sidebar";
 import RecentTransactions from "../../components/UserDashboard/RecentTransactions";
@@ -10,12 +9,8 @@ import { fetchUserData } from "../../services/fetchUserData";
 import { hasPermission } from "../../services/rbac";
 import StatCard from "../../components/UserDashboard/StatCard";
 import { BsBarChart, BsScooter, BsTree, BsWallet2 } from "react-icons/bs";
-import StripeWrapper from "../../components/StripeWrapper"; // Importera StripeWrapper
 
-// Dynamiskt importera CheckoutForm, endast på klientsidan
-const CheckoutForm = dynamic(() => import("../../components/CheckoutForm"), {
-  ssr: false, // Disable server-side rendering for this component
-});
+
 
 function Profile() {
   const [user, setUser] = useState(null);
@@ -38,10 +33,6 @@ function Profile() {
     <div className="d-flex bg-color-2 p-3" style={{ height: "100vh", width: "100%" }}>
       <div style={{ flex: "0 0 280px", height: "100%" }}>
         <Sidebar />
-        {/* Wrappa CheckoutForm med StripeWrapper */}
-        <StripeWrapper>
-          <CheckoutForm />
-        </StripeWrapper>
       </div>
 
       <div className="d-flex flex-column" style={{ flex: "1", overflowY: "auto" }}>

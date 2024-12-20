@@ -1,3 +1,4 @@
+"use client"
 import { redirect } from "next/navigation";
 import { useState } from "react";
 
@@ -22,16 +23,16 @@ function RegisterForm() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(userData),
+        credentials: "include", 
       });
       const responseBody = await response.json();
       console.log("Response from server:", responseBody);
 
       if (response.ok) {
         setErrorMessage(null);
-        localStorage.setItem("token", responseBody.token);
-        localStorage.setItem("is_Admin", responseBody.is_Admin); // Spara token i localStorage
+        // Cookie hanteras automatiskt här, ingen need att spara i localStorage
         setTimeout(() => {
-          redirect("/profile"); // Redirect till login-sidan
+          redirect("/profile"); // Redirect till profil-sidan
         }, 1000); // Du kan justera fördröjningen här om du vill visa ett meddelande först
       } else {
         setErrorMessage(
@@ -47,7 +48,7 @@ function RegisterForm() {
   };
 
   return (
-    <section className="vh-100 ">
+    <section className="vh-100">
       <div className="mask d-flex align-items-center h-100 bg-color-1">
         <div className="container h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">

@@ -27,7 +27,7 @@ function userSidebar() {
       <li className="nav-item">
         <Link
           className="nav-link d-flex text-accent-2 align-items-center"
-          href="/scooters"
+          href="/payment"
         >
           <BsCreditCard className="bi me-2" style={{ color: "#6d3170" }} />
           Payment

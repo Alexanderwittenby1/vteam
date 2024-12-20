@@ -10,13 +10,14 @@ const adminRoutes = require("./routes/adminRoutes");
 const scooterRoutes = require("./routes/scooterRoutes");
 const stationRoutes = require("./routes/stationRoutes");
 
+
 dotenv.config();
 const app = express();
 
 app.use(
   cors({
     credentials: true,
-    origin: "*",
+    origin: "http://localhost:3000",
   })
 );
 
@@ -29,8 +30,12 @@ app.use("/bike", scooterRoutes);
 app.use("/admin", adminRoutes);
 app.use("/station", stationRoutes);
 
+
+
+
+
 app.use(async (req, res, next) => {
-  await logEvents(req, res, next);
+  await logEvents(req, res, next);// Logga alla cookies som kommer med begäran
   next();
 });
 
