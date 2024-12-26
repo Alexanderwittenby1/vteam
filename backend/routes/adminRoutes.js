@@ -13,4 +13,8 @@ router.get("/profile/:id", verifyToken, isAdmin, adminController.getUserById);
 
 router.put("/update/:id", verifyToken, isAdmin, adminController.updateUser);
 
+// Route to delete a user by ID
+router.delete("/delete/:id", verifyToken, isAdmin, adminController.deleteUser);
+
+
 module.exports = router;

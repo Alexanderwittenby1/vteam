@@ -1,4 +1,5 @@
-import { useRouter } from "next/navigation";
+"use client"
+import { redirect } from "next/navigation";
 import { useState } from "react";
 import { useDeviceDetection } from "@/components/map/useDeviceDetection";
 
@@ -25,23 +26,17 @@ function LoginForm() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(userData),
+        credentials: "include", 
       });
       const responseBody = await response.json();
       console.log("Response from server:", responseBody);
 
       if (response.ok) {
         setErrorMessage(null);
-        localStorage.setItem("token", responseBody.token);
-        localStorage.setItem("is_Admin", responseBody.is_Admin);
-        
-        // Redirect based on device type
+        // Cookie hanteras automatiskt här, ingen need att spara i localStorage
         setTimeout(() => {
-          if (isMobile) {
-            router.push('/map');
-          } else {
-            router.push('/scooters');
-          }
-        }, 1000);
+          redirect("/profile"); // Redirect till profil-sidan
+        }, 1000); // Du kan justera fördröjningen här om du vill visa ett meddelande först
       } else {
         setErrorMessage(
           responseBody.message || "Something went wrong during login."

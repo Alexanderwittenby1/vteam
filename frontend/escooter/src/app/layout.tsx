@@ -4,6 +4,8 @@ import "./globals.css";
 import MobileNavBar from '@/components/MobileNavBar';
 import { useDeviceDetection } from '@/components/map/useDeviceDetection';
 import { usePathname } from 'next/navigation';
+import Navbar from "@/components/Navbar";
+
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -46,7 +48,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      > <Navbar />
         <LayoutWrapper>{children}</LayoutWrapper>
       </body>
     </html>

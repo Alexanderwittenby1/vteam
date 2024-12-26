@@ -1,17 +1,11 @@
 export const fetchUserData = async () => {
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    return null; // Om ingen token finns, returnera null
-  }
-
   try {
     const response = await fetch("http://localhost:4000/user/profile", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
+      credentials: "include", // Viktigt att inkludera cookies här
     });
 
     if (response.ok) {

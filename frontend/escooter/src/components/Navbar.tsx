@@ -2,10 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 export default function Navbar() {
-  const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'Scooters', href: '/scooters' },
-    { name: 'Register', href: '/register' },
+  const navigation = [,
     { name: 'About', href: '/about' },
   ];
 
