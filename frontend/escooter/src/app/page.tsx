@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 import Sidebar from "@/components/sidebar/Sidebar";
-import Navbar from "../components/Navbar"; // Importera Navbar-komponenten
-=======
 import React from 'react';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
@@ -24,7 +21,6 @@ const HomePage = () => {
       description: "Learn about our safety initiatives"
     }
   ];
->>>>>>> main
 
   return (
     <div className="min-h-screen">
