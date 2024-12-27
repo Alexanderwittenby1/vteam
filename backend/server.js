@@ -9,8 +9,12 @@ const userRoutes = require("./routes/userRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const scooterRoutes = require("./routes/scooterRoutes");
 const stationRoutes = require("./routes/stationRoutes");
+<<<<<<< HEAD
 const passport = require("./config/passportConfig");
 const session = require("express-session");
+=======
+
+>>>>>>> d7713f8385c38fad1b0b54efdbfcc18c1d1f7268
 dotenv.config();
 const app = express();
 
@@ -20,8 +24,12 @@ app.use(
     origin: "*",
   })
 );
+<<<<<<< HEAD
 app.use(passport.initialize());
 app.use(passport.session());
+=======
+
+>>>>>>> d7713f8385c38fad1b0b54efdbfcc18c1d1f7268
 app.use(cookieParser());
 app.use(compression());
 app.use(express.json());
