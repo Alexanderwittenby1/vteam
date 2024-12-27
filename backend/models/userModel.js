@@ -110,6 +110,15 @@ const updateLastLogin = async (userId) => {
   ]);
 };
 
+const addMoney = async (userId, amount) => {
+  db.query(
+    "UPDATE user_table SET balance = balance + ? WHERE user_id = ?",
+    [amount, userId]
+  );
+};
+
+
+
 module.exports = {
   getUserById,
   getUserByEmail,
@@ -119,4 +128,5 @@ module.exports = {
   getAllUsers,
   updateUserPassword,
   updateLastLogin,
+  addMoney,
 };

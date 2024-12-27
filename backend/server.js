@@ -14,14 +14,18 @@ const passport = require("./config/passportConfig");
 const session = require("express-session");
 =======
 
+<<<<<<< HEAD
 >>>>>>> d7713f8385c38fad1b0b54efdbfcc18c1d1f7268
+=======
+
+>>>>>>> main
 dotenv.config();
 const app = express();
 
 app.use(
   cors({
     credentials: true,
-    origin: "*",
+    origin: "http://localhost:3000",
   })
 );
 <<<<<<< HEAD
@@ -39,8 +43,12 @@ app.use("/bike", scooterRoutes);
 app.use("/admin", adminRoutes);
 app.use("/station", stationRoutes);
 
+
+
+
+
 app.use(async (req, res, next) => {
-  await logEvents(req, res, next);
+  await logEvents(req, res, next);// Logga alla cookies som kommer med begäran
   next();
 });
 

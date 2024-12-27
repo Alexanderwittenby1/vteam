@@ -1,22 +1,75 @@
+// src/app/profile/page.tsx
 "use client";
+
+import { useState, useEffect } from "react";
+import Sidebar from "../../components/sidebar/Sidebar";
 import RecentTransactions from "../../components/UserDashboard/RecentTransactions";
-import Sidebar from "../../components/Sidebar";
 import RecentTrips from "../../components/UserDashboard/RecentTripsUser";
-import React, { useEffect, useState } from "react";
+import { fetchUserData } from "../../services/fetchUserData";
+import { hasPermission } from "../../services/rbac";
+import StatCard from "../../components/UserDashboard/StatCard";
+import { BsBarChart, BsScooter, BsTree, BsWallet2 } from "react-icons/bs";
+
+
 
 function Profile() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const getUserData = async () => {
+      const userData = await fetchUserData();
+      setUser(userData);
+      console.log(userData, "sidebar");
+    };
+
+    getUserData();
+  }, []);
+
+  if (!user) {
+    return <p>Loading...</p>;
+  }
+
   return (
-    <div
-      className="d-flex p-3 bg-color-2"
-      style={{ height: "calc(100vh + 0px)" }}
-    >
-      <Sidebar />
-      <div
-        className=" d-flex justify-content-around"
-        style={{ width: "100%", height: "50vh" }}
-      >
-        <RecentTrips />
-        <RecentTransactions />
+    <div className="d-flex bg-color-2 p-3" style={{ height: "100vh", width: "100%" }}>
+      <div style={{ flex: "0 0 280px", height: "100%" }}>
+        <Sidebar />
+      </div>
+
+      <div className="d-flex flex-column" style={{ flex: "1", overflowY: "auto" }}>
+        {hasPermission(user.role, "adminView") && (
+          <div className="admin-dash d-flex justify-content-around" style={{ width: "100%", height: "50vh" }}>
+            Admin-innehåll
+          </div>
+        )}
+
+        {hasPermission(user.role, "userView") && (
+          <div>
+            <div className="container">
+              <div className="row">
+                <div className="col-md-6 mb-3">
+                  <RecentTrips />
+                </div>
+                <div className="col-md-6 mb-3">
+                  <RecentTransactions />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-md-3 mb-3">
+                  <StatCard stat={"46km"} text={"Total distance travelled"} icon={BsBarChart} />
+                </div>
+                <div className="col-md-3 mb-3">
+                  <StatCard stat={"24"} text={"Trips made"} icon={BsScooter} />
+                </div>
+                <div className="col-md-3 mb-3">
+                  <StatCard stat={"5.3kg CO₂"} text={"Carbon saved"} icon={BsTree} />
+                </div>
+                <div className="col-md-3 mb-3">
+                  <StatCard stat={"323,87kr"} text={"Balance"} icon={BsWallet2} />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

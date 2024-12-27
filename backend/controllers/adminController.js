@@ -26,24 +26,12 @@ exports.getUserById = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   const userId = req.params.id;
-<<<<<<< HEAD
   const { email, password, role } = req.body;
-=======
-<<<<<<< HEAD
-  const { email, password, role } = req.body;
-=======
-  console.log("User ID:", userId);
->>>>>>> main
->>>>>>> d7713f8385c38fad1b0b54efdbfcc18c1d1f7268
 
   if (!userId) {
     return res.status(400).json({ message: "User ID is required" });
   }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> d7713f8385c38fad1b0b54efdbfcc18c1d1f7268
   const userData = {};
 
   if (email) {
@@ -66,16 +54,20 @@ exports.updateUser = async (req, res) => {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
   }
-<<<<<<< HEAD
-=======
-=======
-  const { email, password, role } = req.body;
-  await adminModel.updateUser(userId, email, password, role, (error, user) => {
+};
+
+
+exports.deleteUser = async (req, res) => {
+  const userId = req.params.id;
+
+  if (!userId) {
+    return res.status(400).json({ message: "User ID is required" });
+  }
+
+  await adminModel.deleteUser(userId, (error, result) => {
     if (error) {
       return res.status(500).json({ error: "Internal server error" });
     }
-    res.status(200).json(user);
+    res.status(200).json({ message: "User deleted successfully" });
   });
->>>>>>> main
->>>>>>> d7713f8385c38fad1b0b54efdbfcc18c1d1f7268
-};
+}
