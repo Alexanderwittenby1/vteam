@@ -12,23 +12,27 @@ import { BsBarChart, BsScooter, BsTree, BsWallet2 } from "react-icons/bs";
 
 
 
+
 function Profile() {
   const [user, setUser] = useState(null);
+  
 
   useEffect(() => {
     const getUserData = async () => {
       const userData = await fetchUserData();
       setUser(userData);
-      console.log(userData, "sidebar");
+      
     };
 
     getUserData();
   }, []);
+    console.log("USERDATA",user);
+  
+  
 
   if (!user) {
     return <p>Loading...</p>;
   }
-
   return (
     <div className="d-flex bg-color-2 p-3" style={{ height: "100vh", width: "100%" }}>
       <div style={{ flex: "0 0 280px", height: "100%" }}>

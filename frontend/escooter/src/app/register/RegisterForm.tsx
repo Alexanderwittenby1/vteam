@@ -10,7 +10,7 @@ function RegisterForm() {
 
   // Hantera formulärsändning
   const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault(); // Förhindra omdirigering av sidan
+   
     setIsSubmitting(true);
 
     const userData = { email, password };

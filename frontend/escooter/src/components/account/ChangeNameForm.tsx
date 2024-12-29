@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AlertCircle, Check, X } from 'lucide-react';
+import Cookies from 'js-cookie';
 
 interface ChangeEmailFormProps {
   onBack: () => void;
@@ -34,7 +35,9 @@ const ChangeEmailForm: React.FC<ChangeEmailFormProps> = ({ onBack, user }) => {
     setError('');
 
     try {
-      const token = localStorage.getItem('token');
+      const token = Cookies.get('token'); 
+      console.log('Token:', token);
+      
       
       if (!user?.user_id || !token) {
         throw new Error('You need to be logged in');
@@ -50,12 +53,12 @@ const ChangeEmailForm: React.FC<ChangeEmailFormProps> = ({ onBack, user }) => {
         throw new Error('New email must be different from current email');
       }
 
-      const response = await fetch(`${API_BASE_URL}/users/${user.user_id}`, {
+      const response = await fetch(`${API_BASE_URL}/user/updatePassword`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
         },
+        credentials: 'include',
         body: JSON.stringify({
           email: newEmail.trim()
         })

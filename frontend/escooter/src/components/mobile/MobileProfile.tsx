@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Settings, Wallet, Receipt, MessageSquare, ChevronRight, Bike, Gift, MessageCircle } from 'lucide-react';
-import { fetchUserData } from '../../services/fetchUserData';
 import RecentTransactions from '../../components/UserDashboard/RecentTransactions';
 import ChangeNameForm from '@/components/account/ChangeNameForm';
-import ChangePasswordForm from '../account/ChangePasswordForm';
+import ChangePasswordForm from '@/components/account/ChangePasswordForm';
 
 interface User {
   user_id: number;
@@ -12,17 +11,12 @@ interface User {
   // Add other user properties as needed
 }
 
-const MobileProfile = () => {
-  const [user, setUser] = useState<User | null>(null);
-  const [activeView, setActiveView] = useState('main');
+interface MobileProfileProps {
+  user: User;
+}
 
-  useEffect(() => {
-    const getUserData = async () => {
-      const userData = await fetchUserData();
-      setUser(userData);
-    };
-    getUserData();
-  }, []);
+const MobileProfile: React.FC<MobileProfileProps> = ({ user }) => {
+  const [activeView, setActiveView] = useState('main');
 
   const AccountSettings = ({ user }: { user: User }) => {
     const [showNameForm, setShowNameForm] = useState(false);
@@ -31,7 +25,7 @@ const MobileProfile = () => {
     if (showNameForm) {
       return <ChangeNameForm onBack={() => setShowNameForm(false)} user={user} />;
     } else if (showPasswordForm) {
-        return <ChangePasswordForm onBack={() => setShowPasswordForm(false)} user={user} />;
+      return <ChangePasswordForm onBack={() => setShowPasswordForm(false)} user={user} />;
     }
 
     return (
@@ -45,8 +39,9 @@ const MobileProfile = () => {
           <ChevronRight className="h-5 w-5 text-gray-400" />
         </button>
         <button 
-        onClick={() => setShowPasswordForm(true)}
-        className="w-full p-4 bg-white rounded-lg shadow-sm flex items-center justify-between">
+          onClick={() => setShowPasswordForm(true)}
+          className="w-full p-4 bg-white rounded-lg shadow-sm flex items-center justify-between"
+        >
           <span>Change Password</span>
           <ChevronRight className="h-5 w-5 text-gray-400" />
         </button>
@@ -132,14 +127,6 @@ const MobileProfile = () => {
       </div>
     </div>
   );
-
-  if (!user) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <p className="text-lg">Loading...</p>
-      </div>
-    );
-  }
 
   const renderView = () => {
     switch (activeView) {

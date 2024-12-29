@@ -1,7 +1,9 @@
 'use client'; // Viktigt för att använda klientkod i app-mappen
 
-import { useState } from 'react';
+import { useState, useEffect  } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
+import { fetchUserData } from "../../services/fetchUserData";
+
 
 console.log(loadStripe);
 const stripePromise = loadStripe('pk_test_51QVGmWRoXcO6JWu3lQaHYWRGwBugOpHCTS5b7OfipoM9S7vI14eNnStSgp7dSHJZKJpNfIVG6AZGMAPkrytdyVFS00ktOqdKob'); // Ersätt med din Stripe publishable key
@@ -9,10 +11,36 @@ const stripePromise = loadStripe('pk_test_51QVGmWRoXcO6JWu3lQaHYWRGwBugOpHCTS5b7
 const Checkout = () => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [amount, setAmount] = useState(''); // Spara användarens valda belopp
+  const [user, setUser] = useState(null);
+    
+  
+    useEffect(() => {
+      const getUserData = async () => {
+        const userId = await fetchUserData();
+        setUser(userId.user_id);
+        
+      };
+  
+      getUserData();
+    }, []);
+      
+  console.log("Userid -->",user);
+
+ 
 
   const handleCheckout = async () => {
     setLoading(true);
-    setErrorMessage(''); // Rensa eventuella tidigare felmeddelanden
+    setErrorMessage(''); 
+    
+
+    if (!amount || isNaN(amount) || amount <= 0) {
+      setErrorMessage('Vänligen ange ett giltigt belopp.');
+      setLoading(false);
+      return;
+    }
+
+    const amountInCents = Math.round(parseFloat(amount) * 100); // Omvandla till öre (cent)
 
     try {
       // Skicka begäran till backend för att skapa en Stripe Checkout-session
@@ -24,11 +52,12 @@ const Checkout = () => {
         body: JSON.stringify({
           items: [
             {
-              name: 'Exempelprodukt', // Produktens namn
-              amount: 1000, // Belopp i öre (1000 = 10 kr)
-              quantity: 1, // Antal produkter
+              name: 'Donation', // Du kan anpassa produktens namn
+              amount: amountInCents, // Skicka beloppet i öre
+              quantity: 1, // Antal produkter (en)
             },
           ],
+          userId: user
         }),
       });
 
@@ -37,7 +66,7 @@ const Checkout = () => {
       }
 
       const { id } = await response.json(); // Ta emot sessionId från backend
-      console.log('Session ID received:', id); // Logga session-id för debugging
+      
 
       // Ladda Stripe och omdirigera till checkout
       const stripe = await stripePromise;
@@ -65,6 +94,19 @@ const Checkout = () => {
   return (
     <div className="container mt-5">
       <h1 className="mb-4">Checkout</h1>
+      
+      <div className="form-group">
+        <label htmlFor="amount">Ange belopp (SEK):</label>
+        <input
+          type="number"
+          id="amount"
+          className="form-control"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+          placeholder="Skriv beloppet här"
+        />
+      </div>
+
       <button
         className={`btn btn-primary ${loading ? 'disabled' : ''}`}
         onClick={handleCheckout}
@@ -83,5 +125,6 @@ const Checkout = () => {
 }
 
 export default Checkout;
+
 
 
