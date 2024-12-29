@@ -206,3 +206,13 @@ exports.addMoney = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+exports.updateUserBalance = async (userId, amount) => {
+  try {
+    console.log({ userId, amount });
+    await userModel.addMoney(userId, amount);
+    console.log("User balance updated successfully");
+  } catch (error) {
+    console.error("Error updating user balance:", error);
+  }
+}

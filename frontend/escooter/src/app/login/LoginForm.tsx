@@ -1,15 +1,16 @@
 "use client"
 import { redirect } from "next/navigation";
 import { useState } from "react";
-import { useDeviceDetection } from "@/components/map/useDeviceDetection";
+
 
 function LoginForm() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const router = useRouter();
-  const { isMobile } = useDeviceDetection();
+
+  
+  
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -29,11 +30,11 @@ function LoginForm() {
         credentials: "include", 
       });
       const responseBody = await response.json();
-      console.log("Response from server:", responseBody);
+      
 
       if (response.ok) {
         setErrorMessage(null);
-        // Cookie hanteras automatiskt här, ingen need att spara i localStorage
+       
         setTimeout(() => {
           redirect("/profile"); // Redirect till profil-sidan
         }, 1000); // Du kan justera fördröjningen här om du vill visa ett meddelande först

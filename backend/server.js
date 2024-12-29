@@ -9,10 +9,15 @@ const userRoutes = require("./routes/userRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const scooterRoutes = require("./routes/scooterRoutes");
 const stationRoutes = require("./routes/stationRoutes");
+const userController = require("./controllers/userController");
+
+const Stripe = require('stripe');
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
 
 dotenv.config();
 const app = express();
+
 
 app.use(
   cors({
@@ -20,11 +25,36 @@ app.use(
     origin: "http://localhost:3000",
   })
 );
-
 app.use(cookieParser());
 app.use(compression());
-app.use(express.json());
 
+
+app.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
+  const sig = req.headers['stripe-signature'];
+  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  
+  let event;
+
+  try {
+    event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+    const userId = event.data.object.metadata.userId;
+
+    if (event.type === 'payment_intent.succeeded') {
+      const paymentIntent = event.data.object;
+      console.log(`Betalning mottagen från användare: ${userId}`);
+      const amountPaid = paymentIntent.amount_received; // Beloppet som betalades (i minsta enhet, t.ex. ören)
+      console.log(`Betalning mottagen: ${amountPaid} SEK från användare: ${userId}`);
+      userController.updateUserBalance(userId, amountPaid);
+      console.log(`Betalning lyckades! Uppdaterade ${userId}'s saldo: ${amountPaid} SEK`);
+    }
+  } catch (err) {
+    console.log(`Webhook error: ${err.message}`);
+    return res.status(400).send(`Webhook error: ${err.message}`);
+  }
+  res.status(200).send('Webhook received');
+});
+
+app.use(express.json());
 app.use("/user", userRoutes);
 app.use("/bike", scooterRoutes);
 app.use("/admin", adminRoutes);

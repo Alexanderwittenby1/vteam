@@ -3,12 +3,15 @@ const router = express.Router();
 const userController = require("../controllers/userController");
 const verifyToken = require("../middleware/autMiddleware");
 const isAdmin = require("../middleware/adminMiddleware");
+
+
 const dotenv = require("dotenv");
 dotenv.config(); // Ladda miljövariabler från .env fil
 
-// Stripe-konfiguration (använd miljövariabel istället för att skriva nyckeln direkt)
+
 const Stripe = require('stripe');
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+
 
 // Rutt för att registrera en användare (utan inloggning)
 router.post("/register", userController.registerUser);
@@ -37,12 +40,10 @@ router.put("/addMoney", verifyToken, userController.addMoney);
 // Rutt för att skapa en Stripe Checkout-session
 router.post('/create-checkout-session', async (req, res) => {
   try {
-    console.log('Request body:', req.body); // Logga indata från frontend för debugging
-
-    // Definiera URL:erna för success och cancel
+    const userId = req.body.userId;
     const successUrl = `${req.headers.origin || 'http://localhost:3000'}/success?session_id={CHECKOUT_SESSION_ID}`;
     const cancelUrl = `${req.headers.origin || 'http://localhost:3000'}/cancel`;
-
+    console.log(userId);
     // Skapa en Stripe-session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -58,11 +59,11 @@ router.post('/create-checkout-session', async (req, res) => {
       })),
       mode: 'payment', // Betalningsläge (köp)
       success_url: successUrl, // URL för framgång
-      cancel_url: cancelUrl, // URL för avbrytning
+      cancel_url: cancelUrl,
+      metadata: {
+        userId: userId, // Användarens ID
+      },
     });
-
-    console.log('Stripe session created:', session); // Logga Stripe-sessionen för debugging
-
     // Skicka tillbaka sessionens ID till frontend
     res.json({ id: session.id });
   } catch (err) {
@@ -71,37 +72,5 @@ router.post('/create-checkout-session', async (req, res) => {
   }
 });
 
-router.post('/webhook', (req, res) => {
-  const sig = req.headers['stripe-signature'];
-  let event;
 
-  try {
-    // Verifiera och parse payloaden från Stripe
-    event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
-  } catch (err) {
-    console.log(`Webhook error: ${err.message}`);
-    return res.status(400).send(`Webhook error: ${err.message}`);
-  }
-
-  // Hantera de händelser du är intresserad av
-  if (event.type === 'payment_intent.succeeded') {
-    const paymentIntent = event.data.object; // Detta innehåller detaljer om betalningen
-
-    // Uppdatera din databas med den betalningsinformation
-    const userId = paymentIntent.metadata.user_id; // Anta att du sparat användar-ID som metadata
-    const amountPaid = paymentIntent.amount_received; // Beloppet som betalades (i minsta enhet, t.ex. ören)
-
-    // Här kan du göra en SQL-uppdatering för att uppdatera användarens balans
-    updateUserBalance(userId, amountPaid);
-  }
-
-  res.status(200).send('Webhook received');
-});
-
-function updateUserBalance(userId, amountPaid) {
-  // Din kod för att uppdatera användarens saldo i databasen
-  // Exempel på en SQL-query för att uppdatera saldot:
-  // UPDATE users SET balance = balance + amountPaid WHERE id = userId;
-  console.log(`User ${userId} betalade ${amountPaid}`);
-}
 module.exports = router;

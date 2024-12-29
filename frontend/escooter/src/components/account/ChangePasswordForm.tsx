@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { AlertCircle, Check, X, EyeOff, Eye } from 'lucide-react';
+import Cookies from 'js-cookie';
 
 interface ChangePasswordFormProps {
   onBack: () => void;
@@ -28,7 +29,7 @@ const ChangePasswordForm: React.FC<ChangePasswordFormProps> = ({ onBack, user })
     setError('');
 
     try {
-      const token = localStorage.getItem('token');
+      const token = Cookies.get('token');
       
       if (!token) {
         throw new Error('You need to be logged in');
@@ -44,8 +45,8 @@ const ChangePasswordForm: React.FC<ChangePasswordFormProps> = ({ onBack, user })
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
         },
+        credentials: 'include',
         body: JSON.stringify({
           password: newPassword
         })
