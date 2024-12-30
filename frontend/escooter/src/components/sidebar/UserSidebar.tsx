@@ -1,11 +1,12 @@
 import { BsSpeedometer2, BsCreditCard, BsClockHistory } from "react-icons/bs";
-
-import React, { useState, useEffect } from "react";
+import { CgProfile } from "react-icons/cg";
 import Link from "next/link";
 
-function userSidebar() {
+
+const UserSidebar = () => {
+
   return (
-    <div>
+    <ul className="nav flex-column">
       <li className="nav-item align-items-center">
         <Link
           className="nav-link d-flex text-accent-2 align-items-center"
@@ -33,8 +34,18 @@ function userSidebar() {
           Payment
         </Link>
       </li>
-    </div>
+      <li className="nav-item">
+        <Link
+          className="nav-link d-flex text-accent-2 align-items-center"
+          href="/AccountSettings"
+        >
+          <CgProfile className="bi me-2" style={{ color: "#6d3170" }} />
+          Account settings
+        </Link>
+      </li>
+      
+    </ul>
   );
-}
+};
 
-export default userSidebar;
+export default UserSidebar;

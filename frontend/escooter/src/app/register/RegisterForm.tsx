@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { redirect } from "next/navigation"; // Importera redirect från next/navigation
+import { redirect } from "next/navigation";
 
 function RegisterForm() {
   const [email, setEmail] = useState<string>("");
@@ -27,10 +27,10 @@ function RegisterForm() {
 
       if (response.ok) {
         setErrorMessage(null);
-        // Använd redirect för att omdirigera till login-sidan efter lyckad registrering
+
         setTimeout(() => {
-          redirect("/"); // Redirect till login-sidan
-        }, 1000); // Du kan justera fördröjningen här om du vill visa ett meddelande först
+          redirect("/");
+        }, 1000);
       } else {
         setErrorMessage(
           responseBody.message || "Något gick fel vid registreringen."
