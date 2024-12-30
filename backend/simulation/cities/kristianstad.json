@@ -596,7 +596,7 @@
     {
       "type": "Feature",
       "properties": {
-        "role": "forbidden"
+        "role": "boundary"
       },
       "geometry": {
         "coordinates": [
@@ -638,7 +638,7 @@
     {
       "type": "Feature",
       "properties": {
-        "role": "forbidden"
+        "role": "boundary"
       },
       "geometry": {
         "coordinates": [
@@ -680,7 +680,7 @@
     {
       "type": "Feature",
       "properties": {
-        "role": "forbidden"
+        "role": "boundary"
       },
       "geometry": {
         "coordinates": [
@@ -722,7 +722,7 @@
     {
       "type": "Feature",
       "properties": {
-        "role": "forbidden"
+        "role": "boundary"
       },
       "geometry": {
         "coordinates": [
@@ -764,7 +764,7 @@
     {
       "type": "Feature",
       "properties": {
-        "role": "forbidden"
+        "role": "boundary"
       },
       "geometry": {
         "coordinates": [
@@ -806,7 +806,7 @@
     {
       "type": "Feature",
       "properties": {
-        "role": "forbidden"
+        "role": "boundary"
       },
       "geometry": {
         "coordinates": [
@@ -840,7 +840,7 @@
     {
       "type": "Feature",
       "properties": {
-        "role": "forbidden"
+        "role": "boundary"
       },
       "geometry": {
         "coordinates": [
