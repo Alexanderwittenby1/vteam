@@ -26,9 +26,7 @@ function Profile() {
 
     getUserData();
   }, []);
-    console.log("USERDATA",user);
-  
-  
+    
 
   if (!user) {
     return <p>Loading...</p>;

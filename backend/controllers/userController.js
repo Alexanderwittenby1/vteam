@@ -37,7 +37,7 @@ exports.registerUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     const userData = { email, password: hashedPassword };
 
-    await userModel.createUser(userData, (error, userId) => {
+    userModel.createUser(userData, (error, userId) => {
       if (error) {
         console.error("Fel vid skapande av användare:", error);
         return res.status(500).json({ error: "Kunde inte skapa användaren" });

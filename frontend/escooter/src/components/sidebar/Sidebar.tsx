@@ -1,24 +1,18 @@
-"use client";
 
-import "bootstrap/dist/css/bootstrap.css";
-import React, { useState, useEffect } from "react";
-import AdminSidebar from "../sidebar/AdminSidebar";
-import UserSidebar from "../sidebar/UserSidebar";
-import Link from "next/link";
-import Image from "next/image";
-import {
-  BsSpeedometer2,
-  BsBuilding,
-  BsPeople,
-  BsScooter,
-  BsPersonCircle,
-} from "react-icons/bs";
-import logo from "../../../public/gogo.png";
-import { fetchUserData } from "../../services/fetchUserData";
-import { hasPermission } from "@/services/rbac";
+import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
+import { BsPersonCircle } from 'react-icons/bs';
+import { CiLogout } from 'react-icons/ci';
+import AdminSidebar from './AdminSidebar';
+import UserSidebar from './UserSidebar';
+import { fetchUserData } from '../../services/fetchUserData';
+import logo from '../../../public/gogo.png';
+import { useRouter } from 'next/navigation';
+import { hasPermission } from '../../services/rbac';
 
-function Sidebar() {
+const Sidebar = () => {
   const [user, setUser] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     const getUserData = async () => {
@@ -29,6 +23,23 @@ function Sidebar() {
 
     getUserData();
   }, []);
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('http://localhost:4000/logout', {
+        method: 'POST',
+        credentials: 'include',
+      });
+
+      if (response.ok) {
+        router.push('/login'); // Redirect to login page after logout
+      } else {
+        console.error('Failed to logout');
+      }
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
 
   if (!user) {
     return <p>Loading...</p>;
@@ -44,18 +55,25 @@ function Sidebar() {
       </a>
       <hr></hr>
       <ul className="nav nav-pills flex-column mb-auto">
-        {hasPermission(user.role, "adminView") && <AdminSidebar />}
-        {hasPermission(user.role, "userView") && <UserSidebar />}
+        {user && user.role && hasPermission(user.role, "adminView") && <AdminSidebar />}
+        {user && user.role && hasPermission(user.role, "userView") && <UserSidebar />}
       </ul>
       <div className="d-flex align-items-center">
         <BsPersonCircle
           className="bi me-2"
           style={{ color: "#6d3170", width: "32px", height: "32px" }}
         />
-        <span className="fs-4 text-accent-2">{user.email.split("@")[0]}</span>
+        <a
+          className="nav-link d-flex text-accent-2 align-items-center"
+          href="#"
+          onClick={handleLogout}
+        >
+          <CiLogout className="bi me-2" style={{ color: "#6d3170", width: "32px", height: "32px" }} />
+          Logout
+        </a>
       </div>
     </div>
   );
-}
+};
 
 export default Sidebar;
