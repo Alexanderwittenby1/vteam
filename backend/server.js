@@ -4,7 +4,6 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const compression = require("compression");
 const logEvents = require("./middleware/logEvents");
-const db = require("./config/dbConfig");
 const userRoutes = require("./routes/userRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const scooterRoutes = require("./routes/scooterRoutes");
@@ -60,7 +59,14 @@ app.use("/bike", scooterRoutes);
 app.use("/admin", adminRoutes);
 app.use("/station", stationRoutes);
 
-
+app.post('/logout', (req, res) => {
+  res.clearCookie('token', {
+    httpOnly: true,
+    secure: false,  // Testa utan secure om du inte använder HTTPS under utveckling
+    sameSite: 'Lax',
+  });
+  res.status(200).json({ message: 'Logout successful' });
+});
 
 
 
