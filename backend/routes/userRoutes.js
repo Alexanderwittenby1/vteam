@@ -7,7 +7,6 @@ const isAdmin = require("../middleware/adminMiddleware");
 const dotenv = require("dotenv");
 dotenv.config(); // Ladda miljövariabler från .env fil
 
-// Stripe-konfiguration (använd miljövariabel istället för att skriva nyckeln direkt)
 const Stripe = require("stripe");
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -44,7 +43,6 @@ router.post("/create-checkout-session", async (req, res) => {
     }/success?session_id={CHECKOUT_SESSION_ID}`;
     const cancelUrl = `${req.headers.origin || "http://localhost:3000"}/cancel`;
     console.log(userId);
-
     // Skapa en Stripe-session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -65,7 +63,6 @@ router.post("/create-checkout-session", async (req, res) => {
         userId: userId, // Användarens ID
       },
     });
-
     // Skicka tillbaka sessionens ID till frontend
     res.json({ id: session.id });
   } catch (err) {
