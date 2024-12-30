@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+=======
+// src/app/profile/page.tsx
+
+import Sidebar from "../../components/sidebar/Sidebar";
+>>>>>>> main
 import RecentTransactions from "../../components/UserDashboard/RecentTransactions";
 import Sidebar from "../../components/sidebar/Sidebar";
 import RecentTrips from "../../components/UserDashboard/RecentTripsUser";
@@ -7,6 +13,7 @@ import { hasPermission } from "../../services/rbac";
 import StatCard from "../../components/UserDashboard/StatCard";
 import { BsBarChart, BsScooter, BsTree, BsWallet2 } from "react-icons/bs";
 
+<<<<<<< HEAD
 function Profile() {
   // const [user, setUser] = useState(null);
   // const [userTrips, setUserTrips] = useState(null);
@@ -55,6 +62,18 @@ function Profile() {
   // };
 
   // const recentTrips = userTrips.slice(0, 10);
+=======
+const Profile = async () => {
+  const res = await fetch("http://localhost:4000/user/profile", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include", // Viktigt att inkludera cookies här
+  });
+  const user = await res.json();
+  console.log(user);
+>>>>>>> main
 
   return (
     <div
@@ -62,7 +81,7 @@ function Profile() {
       style={{ height: "100vh", width: "100%" }}
     >
       <div style={{ flex: "0 0 280px", height: "100%" }}>
-        <Sidebar />
+        <Sidebar user={user} />
       </div>
 
       {/* <div
@@ -70,7 +89,10 @@ function Profile() {
         style={{ flex: "1", overflowY: "auto" }}
       >
         {hasPermission(user.role, "adminView") && (
-          <div className="admin-dash d-flex justify-content-around" style={{ width: "100%", height: "50vh" }}>
+          <div
+            className="admin-dash d-flex justify-content-around"
+            style={{ width: "100%", height: "50vh" }}
+          >
             Admin-innehåll
           </div>
         )}
@@ -89,7 +111,11 @@ function Profile() {
               <div className="row">
                 <div className="col-md-3 mb-3">
                   <StatCard
+<<<<<<< HEAD
                     stat={`${tripData.totalDistance(userTrips)}km`}
+=======
+                    stat={"46km"}
+>>>>>>> main
                     text={"Total distance travelled"}
                     icon={BsBarChart}
                   />
@@ -103,14 +129,22 @@ function Profile() {
                 </div>
                 <div className="col-md-3 mb-3">
                   <StatCard
+<<<<<<< HEAD
                     stat={`${tripData.co2(userTrips)}kg CO₂`}
+=======
+                    stat={"5.3kg CO₂"}
+>>>>>>> main
                     text={"Carbon saved"}
                     icon={BsTree}
                   />
                 </div>
                 <div className="col-md-3 mb-3">
                   <StatCard
+<<<<<<< HEAD
                     stat={`${user.balance}kr`}
+=======
+                    stat={"323,87kr"}
+>>>>>>> main
                     text={"Balance"}
                     icon={BsWallet2}
                   />
@@ -122,6 +156,6 @@ function Profile() {
       </div> */}
     </div>
   );
-}
+};
 
 export default Profile;

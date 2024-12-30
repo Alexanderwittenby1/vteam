@@ -15,19 +15,7 @@ import logo from "../../../public/gogo.png";
 import { fetchUserData } from "../../services/fetchUserData";
 import { hasPermission } from "@/services/rbac";
 
-const Sidebar = async () => {
-  const token = localStorage.getItem("token");
-  const res = await fetch("http://localhost:4000/user/profile", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  const user = await res.json();
-
-  console.log(user);
-
+const Sidebar = ({ user }) => {
   return (
     <div
       className="sidebar bg-color-1 p-3 d-flex flex-column rounded shadow"
