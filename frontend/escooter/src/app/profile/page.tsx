@@ -1,15 +1,9 @@
 // src/app/profile/page.tsx
 
 import Sidebar from "../../components/sidebar/Sidebar";
-import RecentTransactions from "../../components/UserDashboard/RecentTransactions";
-import RecentTrips from "../../components/UserDashboard/RecentTripsUser";
-import { fetchUserData } from "../../services/fetchUserData";
-import { hasPermission } from "../../services/rbac";
-import StatCard from "../../components/UserDashboard/StatCard";
-import { BsBarChart, BsScooter, BsTree, BsWallet2 } from "react-icons/bs";
 
 const Profile = async () => {
-  const res = await fetch("http://localhost:4000/user/profile", {
+  const res = await fetch("http://backend:4000/user/profile", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

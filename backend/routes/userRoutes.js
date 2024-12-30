@@ -4,19 +4,11 @@ const userController = require("../controllers/userController");
 const verifyToken = require("../middleware/autMiddleware");
 const isAdmin = require("../middleware/adminMiddleware");
 
-
 const dotenv = require("dotenv");
 dotenv.config(); // Ladda miljövariabler från .env fil
 
-<<<<<<< HEAD
-// Stripe-konfiguration (använd miljövariabel istället för att skriva nyckeln direkt)
 const Stripe = require("stripe");
-=======
-
-const Stripe = require('stripe');
->>>>>>> 0722eb9772dab8ac3197d478acc5774f1673c588
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
-
 
 // Rutt för att registrera en användare (utan inloggning)
 router.post("/register", userController.registerUser);
@@ -47,21 +39,12 @@ router.put("/addMoney", verifyToken, userController.addMoney);
 // Rutt för att skapa en Stripe Checkout-session
 router.post("/create-checkout-session", async (req, res) => {
   try {
-<<<<<<< HEAD
-    console.log("Request body:", req.body); // Logga indata från frontend för debugging
-
-    // Definiera URL:erna för success och cancel
+    const userId = req.body.userId;
     const successUrl = `${
       req.headers.origin || "http://localhost:3000"
     }/success?session_id={CHECKOUT_SESSION_ID}`;
     const cancelUrl = `${req.headers.origin || "http://localhost:3000"}/cancel`;
-
-=======
-    const userId = req.body.userId;
-    const successUrl = `${req.headers.origin || 'http://localhost:3000'}/success?session_id={CHECKOUT_SESSION_ID}`;
-    const cancelUrl = `${req.headers.origin || 'http://localhost:3000'}/cancel`;
     console.log(userId);
->>>>>>> 0722eb9772dab8ac3197d478acc5774f1673c588
     // Skapa en Stripe-session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
