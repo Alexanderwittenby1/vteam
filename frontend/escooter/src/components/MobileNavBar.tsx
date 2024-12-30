@@ -3,6 +3,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import { MapIcon, UserIcon, LogOutIcon, HistoryIcon } from 'lucide-react';
 import { useDeviceDetection } from './map/useDeviceDetection';
 
+
 interface NavItemProps {
   icon: React.ReactNode;
   label: string;

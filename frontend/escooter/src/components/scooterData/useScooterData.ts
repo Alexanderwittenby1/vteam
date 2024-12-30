@@ -22,7 +22,7 @@ export function useScooterData() {
   useEffect(() => {
     async function fetchScooters() {
       try {
-        const response = await fetch('http://localhost:4000/scooter/all');
+        const response = await fetch('http://localhost:4000/bike/all');
         if (!response.ok) {
           throw new Error('Något gick fel vid hämtning av data');
         }
