@@ -1,5 +1,3 @@
-"use client";
-
 import "bootstrap/dist/css/bootstrap.css";
 import React, { useState, useEffect } from "react";
 import AdminSidebar from "../sidebar/AdminSidebar";
@@ -17,23 +15,7 @@ import logo from "../../../public/gogo.png";
 import { fetchUserData } from "../../services/fetchUserData";
 import { hasPermission } from "@/services/rbac";
 
-function Sidebar() {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const getUserData = async () => {
-      const userData = await fetchUserData();
-      setUser(userData);
-      console.log(userData, "sidebar");
-    };
-
-    getUserData();
-  }, []);
-
-  if (!user) {
-    return <p>Loading...</p>;
-  }
-
+const Sidebar = ({ user }) => {
   return (
     <div
       className="sidebar bg-color-1 p-3 d-flex flex-column rounded shadow"
@@ -56,6 +38,6 @@ function Sidebar() {
       </div>
     </div>
   );
-}
+};
 
 export default Sidebar;

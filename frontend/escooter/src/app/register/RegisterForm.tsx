@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import { redirect } from "next/navigation"; // Importera redirect från next/navigation
 
@@ -10,7 +10,7 @@ function RegisterForm() {
 
   // Hantera formulärsändning
   const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault(); // Förhindra omdirigering av sidan
+    //event.preventDefault(); // Förhindra omdirigering av sidan
     setIsSubmitting(true);
 
     const userData = { email, password };
@@ -56,7 +56,7 @@ function RegisterForm() {
                   <h2 className="text-uppercase text-center mb-5 text-accent-2">
                     Register
                   </h2>
-                  <form action={(e)=>handleSubmit(e)}>
+                  <form action={(e) => handleSubmit(e)}>
                     <div className="form-outline mb-4">
                       <input
                         type="email"

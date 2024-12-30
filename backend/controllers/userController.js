@@ -76,15 +76,15 @@ exports.loginUser = async (req, res) => {
     // Skicka tillbaka JWT-token som en HttpOnly cookie
     res.cookie("token", jwtToken, {
       httpOnly: true,
-      secure: false,  // Testa utan secure om du inte använder HTTPS under utveckling
-      maxAge: 3600000, 
-      sameSite: "Lax",  // Prova att sätta till "Lax" eller "None"
+      secure: false, // Testa utan secure om du inte använder HTTPS under utveckling
+      maxAge: 3600000,
+      sameSite: "Lax", // Prova att sätta till "Lax" eller "None"
     });
     console.log("Token cookie set:", jwtToken); // För att kolla om cookien sätts
 
     return res.status(200).json({
       message: "Login successful",
-      role: user.role, 
+      role: user.role,
     });
   } catch (error) {
     console.error(error);
@@ -188,7 +188,6 @@ exports.updatePassword = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-
 
 exports.addMoney = async (req, res) => {
   const userId = req.user.userId;
