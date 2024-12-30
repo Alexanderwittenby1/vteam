@@ -1,7 +1,9 @@
 // Method 2 (modern approach)
 const Simulation = require('./src/simulation.js');
+const fs = require('fs');
 const dbModules = require("./src/dbmodules.js");
 const modules = require("./src/modules.js");
+const { exec } = require('child_process');
 const readline = require('readline').createInterface({
     input: process.stdin,
     output: process.stdout
@@ -14,11 +16,18 @@ helpTxt = `
 Exit: exits the interactive shell process but not the server.
 Help: Displays the help text.
 Start: Starts the simulation and creates the simulation instance.
+initiate bikes <amount>: inities an n amount of bikes.
+set cities <city> <city> <city>: sets which citys to generate for can take up to 3 at once.
+generate tips <tripsPerBike>: starts the tripGeneration modules tripsberbike should be no higher then 4 or 5.
+reset: resets and deletes previously generated trips and data.
+debug: shows dbug data.
 test response: Checks if simulations instance is running.
-
-
 `
+
+let amount;
 let simulation
+let cities = [];
+let i;
 const processInput = () => {
     readline.question("", (input) => {
             const args = input.toLowerCase().split(' ');
@@ -46,11 +55,67 @@ const processInput = () => {
                 }
                 processInput();
                 break;
-            case "initiate scooters":
-                let amount = parseInt(args[2]);
-                simulation.createNewBikeNode(amount);
+            case "initiate bikes":
+                amount = parseInt(args[2]);
+                if (!simulation) {
+                    console.log("must start the simulation first");
+                } else {
+                    console.log("gggg")
+                    simulation.createNewBikeNode(amount);
+                }
+              
                 processInput();
                 break;
+
+            case "generate trips":
+                console.log("aids:",simulation.totalBikes <=0 )
+                if (!simulation) {
+                    console.log("must start the simulation first")
+                } else if (modules.checkTrips()){
+                    console.log("trips already generated delete them with reset or reset.bash")
+                } else if (simulation.totalBikes <=0 ){
+                    console.log("no bikes generated in simulation run initiate bikes first")
+                } else if (simulation.cities.length <= 0) {
+                    console.log("no cities entered run set cities <city> first")
+                } else {
+                    amount = parseInt(args[2]);
+                    simulation.generateTrips(amount)
+                }
+                
+                processInput();
+                break;
+            case "set cities":
+                i = 2;
+                const validCities = ["karlshamn", "karlskrona", "kristianstad"];
+                while (i < args.length) {
+                    if (validCities.includes(args[i]) && (!cities.includes(args[i]))) {
+                        cities.push(args[i])
+
+                        i++
+                    } else {
+                        console.log("City doesnt exist choose between: karlskrona, karlshamn, kristanstad")
+                        i++
+                    }
+                   
+                }
+
+                simulation.setCities(cities)
+                console.log(cities, args.length)
+                // cities.push()
+                processInput();
+                break; 
+           
+            case "reset":
+               modules.reset()
+               processInput();
+               break;
+            
+            case "debug":
+                console.log(`
+                simulation.totalBikes ${simulation.totalBikes}
+                simulation.cities ${simulation.cities}
+
+                    `)
             default:
                 console.log("uknown command try help")
                 processInput();
@@ -58,5 +123,8 @@ const processInput = () => {
         }
     });
 }
+
+processInput()
+
 
 module.exports = { processInput };

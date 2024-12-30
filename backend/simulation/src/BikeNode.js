@@ -43,7 +43,7 @@ class BikeNode {
 
 
     init() {
-        dbModules.intiateScooters(1);
+        // dbModules.intiateScooters(1);
     }
 
 }
@@ -51,7 +51,7 @@ class BikeNode {
 class simulateBikeNode extends BikeNode {
     constructor() {
         super();
-        this.initSimulationActivity();
+        // this.initSimulationActivity();
     }
 
 }

@@ -35,4 +35,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 tripgenerator2.js
+tripGenerator.js
 .env
