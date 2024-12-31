@@ -1,7 +1,4 @@
-// src/app/profile/page.tsx
-"use client";
 
-import { useState, useEffect } from "react";
 import Sidebar from "../../components/sidebar/Sidebar";
 import RecentTransactions from "../../components/UserDashboard/RecentTransactions";
 import RecentTrips from "../../components/UserDashboard/RecentTripsUser";
@@ -9,23 +6,14 @@ import { fetchUserData } from "../../services/fetchUserData";
 import { hasPermission } from "../../services/rbac";
 import StatCard from "../../components/UserDashboard/StatCard";
 import { BsBarChart, BsScooter, BsTree, BsWallet2 } from "react-icons/bs";
+import { cookies } from 'next/headers';
 
 
+const Profile = async () => {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('token')?.value || '';
 
-
-function Profile() {
-  const [user, setUser] = useState(null);
-  
-
-  useEffect(() => {
-    const getUserData = async () => {
-      const userData = await fetchUserData();
-      setUser(userData);
-      
-    };
-
-    getUserData();
-  }, []);
+  const user = await fetchUserData(token);
     
 
   if (!user) {
@@ -34,7 +22,7 @@ function Profile() {
   return (
     <div className="d-flex bg-color-2 p-3" style={{ height: "100vh", width: "100%" }}>
       <div style={{ flex: "0 0 280px", height: "100%" }}>
-        <Sidebar />
+        <Sidebar user={user} />
       </div>
 
       <div className="d-flex flex-column" style={{ flex: "1", overflowY: "auto" }}>

@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 export async function POST(req: Request) {
   try {
     const { items } = await req.json();
-    console.log('Request body from frontend:', items);  // Logga indata för debugging
+    console.log('Request body from frontend:', items);  
 
     const response = await fetch('http://backend:4000/user/create-checkout-session', {
       method: 'POST',

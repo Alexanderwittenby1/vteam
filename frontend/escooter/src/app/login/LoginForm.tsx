@@ -104,8 +104,12 @@ function LoginForm() {
                         {errorMessage}
                       </div>
                     )}
+                    <p className="text-center mt-3 d-flex justify-content-left">
+                      Sign in with GitHub
+                      <a href="/signInWithGitHub" className="fw-bold text-accent-1">Sign in with github</a>
+                    </p>
 
-                    <p className="text-center mt-3">
+                    <p className="text-center mt-3 d-flex justify-content-left ">
                       Don't have an account?{" "}
                       <a href="/register" className="fw-bold text-accent-1">
                         Register here

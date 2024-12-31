@@ -34,7 +34,7 @@ router.get("/admin", verifyToken, isAdmin, userController.getAllUsers);
 // Rutt för att uppdatera lösenordet
 router.put("/updatePassword", verifyToken, userController.updatePassword);
 
-// router.put("/updateEmail", verifyToken, userController.updateEmail);
+
 
 // Rutt för att sätta in pengar på sitt konto (kräver att användaren är inloggad)
 router.put("/addMoney", verifyToken, userController.addMoney);

@@ -1,28 +1,24 @@
-
-import React, { useEffect, useState } from 'react';
+"use client"
+import React, { ReactNode } from 'react';
 import Image from 'next/image';
 import { BsPersonCircle } from 'react-icons/bs';
 import { CiLogout } from 'react-icons/ci';
 import AdminSidebar from './AdminSidebar';
 import UserSidebar from './UserSidebar';
-import { fetchUserData } from '../../services/fetchUserData';
 import logo from '../../../public/gogo.png';
 import { useRouter } from 'next/navigation';
 import { hasPermission } from '../../services/rbac';
 
-const Sidebar = () => {
-  const [user, setUser] = useState(null);
+
+
+
+const Sidebar = ({ user }: {user: ReactNode}) => {
+  
   const router = useRouter();
+  
 
-  useEffect(() => {
-    const getUserData = async () => {
-      const userData = await fetchUserData();
-      setUser(userData);
-      console.log(userData, "sidebar");
-    };
+ 
 
-    getUserData();
-  }, []);
 
   const handleLogout = async () => {
     try {
