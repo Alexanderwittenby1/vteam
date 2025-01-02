@@ -1,6 +1,6 @@
-"use client"
+"use client";
 import React, { useState } from "react";
-import { redirect } from "next/navigation"; 
+import { redirect } from "next/navigation";
 
 function RegisterForm() {
   const [email, setEmail] = useState<string>("");
@@ -9,8 +9,7 @@ function RegisterForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Hantera formulärsändning
-  const handleSubmit = async (event :React.FormEvent) => {
-   
+  const handleSubmit = async (event: React.FormEvent) => {
     setIsSubmitting(true);
 
     const userData = { email, password };
@@ -28,10 +27,10 @@ function RegisterForm() {
 
       if (response.ok) {
         setErrorMessage(null);
-        
+
         setTimeout(() => {
-          redirect("/"); 
-        }, 1000); 
+          redirect("/");
+        }, 1000);
       } else {
         setErrorMessage(
           responseBody.message || "Något gick fel vid registreringen."
@@ -56,7 +55,7 @@ function RegisterForm() {
                   <h2 className="text-uppercase text-center mb-5 text-accent-2">
                     Register
                   </h2>
-                  <form action={(e)=>handleSubmit(e)}>
+                  <form action={(e) => handleSubmit(e)}>
                     <div className="form-outline mb-4">
                       <input
                         type="email"

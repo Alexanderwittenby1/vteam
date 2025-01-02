@@ -1,8 +1,8 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css"; // CSS för Bootstrap
 
-function RecentTrips() {
-  const items = [1, 2, 3, 4, 5];
+function RecentTrips(props) {
+  const items = props.array;
   return (
     <div className="card border-0 shadow-sm">
       <div className="card-body">
@@ -15,12 +15,12 @@ function RecentTrips() {
           style={{ maxHeight: "200px", overflowY: "auto" }}
         >
           {items.map((item) => (
-            <li className="list-group-item border-0" key={item}>
+            <li className="list-group-item border-0" key={item.trip_id}>
               <div className="d-flex w-100 justify-content-between">
-                <h5 className="mb-1">A to B</h5>
-                <small>Date: #</small>
+                <h5 className="mb-1">{`${item.start_location} - ${item.end_location}`}</h5>
+                <small>{item.start_time}</small>
               </div>
-              Distance: #
+              {item.distance}km
             </li>
           ))}
         </ul>
