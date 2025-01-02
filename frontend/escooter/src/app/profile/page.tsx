@@ -1,18 +1,13 @@
 // src/app/profile/page.tsx
-
+import { fetchUserData } from "@/services/fetchUserData";
 import Sidebar from "../../components/sidebar/Sidebar";
+import { cookies } from "next/headers";
+import "bootstrap/dist/css/bootstrap.min.css"; // CSS för Bootstrap
 
 const Profile = async () => {
-  const res = await fetch("http://backend:4000/user/profile", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include", // Viktigt att inkludera cookies här
-  });
-  const user = await res.json();
-  console.log(user);
-
+  const cookieStore = await cookies();
+  const token = (await cookieStore.get("token")?.value) || "";
+  const user = await fetchUserData(token);
   return (
     <div
       className="d-flex bg-color-2 p-3"
