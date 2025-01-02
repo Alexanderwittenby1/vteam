@@ -1,12 +1,7 @@
-export const fetchUserTrips = async () => {
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    return null; // Om ingen token finns, returnera null
-  }
-
+export const fetchTripData = async (token: string) => {
   try {
-    const response = await fetch("http://localhost:4000/user/trips", {
+    console.log("Token in fetchTripData", token);
+    const response = await fetch("http://backend:4000/user/trips", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -18,11 +13,11 @@ export const fetchUserTrips = async () => {
       const data = await response.json();
       return data;
     } else {
-      console.error("Failed to fetch trips", response.statusText);
+      console.error("Failed to fetch profile", response.statusText);
       return null;
     }
   } catch (error) {
-    console.error("Error fetching trips:", error);
+    console.error("Error fetching profile:", error);
     return null;
   }
 };

@@ -7,11 +7,49 @@ import StatCard from "@/components/UserDashboard/StatCard";
 import { cookies } from "next/headers";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { hasPermission } from "@/services/rbac";
+import { fetchTripData } from "@/services/fetchUserTrips";
+import { BsBarChart, BsScooter, BsTree, BsWallet2 } from "react-icons/bs";
 
 const Profile = async () => {
   const cookieStore = await cookies();
   const token = (await cookieStore.get("token")?.value) || "";
   const user = await fetchUserData(token);
+
+  const trips = await fetchTripData(token);
+
+  const tripData = {
+    totalDistance: function (trips) {
+      if (!Array.isArray(trips)) {
+        console.error("Invalid input: trips should be an array.");
+        return 0;
+      }
+
+      const total = trips.reduce((acc, trip) => {
+        if (trip.distance && typeof trip.distance === "number") {
+          return acc + trip.distance;
+        }
+        return acc;
+      }, 0);
+
+      return Math.round(total * 100) / 100;
+    },
+
+    totalTrips: function (trips) {
+      if (!Array.isArray(trips)) {
+        console.error("Invalid input: trips should be an array.");
+        return 0;
+      }
+
+      return trips.length;
+    },
+
+    co2: function (distance) {
+      const co2Car = 0.21;
+      const savedCo2 = distance * co2Car;
+
+      return Math.round(savedCo2 * 100) / 100;
+    },
+  };
 
   return (
     <div
@@ -40,7 +78,7 @@ const Profile = async () => {
             <div className="container">
               <div className="row">
                 <div className="col-md-6 mb-3">
-                  <RecentTrips array={recentTrips} />
+                  <RecentTrips array={trips} />
                 </div>
                 <div className="col-md-6 mb-3">
                   <RecentTransactions />
@@ -49,21 +87,23 @@ const Profile = async () => {
               <div className="row">
                 <div className="col-md-3 mb-3">
                   <StatCard
-                    stat={`${tripData.totalDistance(userTrips)}km`}
+                    stat={`${tripData.totalDistance(trips)}km`}
                     text={"Total distance travelled"}
                     icon={BsBarChart}
                   />
                 </div>
                 <div className="col-md-3 mb-3">
                   <StatCard
-                    stat={tripData.totalTrips(userTrips)}
+                    stat={tripData.totalTrips(trips)}
                     text={"Trips made"}
                     icon={BsScooter}
                   />
                 </div>
                 <div className="col-md-3 mb-3">
                   <StatCard
-                    stat={`${tripData.co2(userTrips)}kg CO₂`}
+                    stat={`${tripData.co2(
+                      tripData.totalDistance(trips)
+                    )}kg CO₂`}
                     text={"Carbon saved"}
                     icon={BsTree}
                   />
