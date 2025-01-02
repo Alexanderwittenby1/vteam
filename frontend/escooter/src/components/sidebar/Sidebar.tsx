@@ -1,7 +1,7 @@
 "use client";
 import React, { ReactNode } from "react";
 import Image from "next/image";
-import { BsPersonCircle } from "react-icons/bs";
+import { BsPersonCircle, BsBoxArrowLeft } from "react-icons/bs";
 import { CiLogout } from "react-icons/ci";
 import AdminSidebar from "./AdminSidebar";
 import UserSidebar from "./UserSidebar";
@@ -49,23 +49,21 @@ const Sidebar = ({ user }: { user: ReactNode }) => {
         {user && user.role && hasPermission(user.role, "userView") && (
           <UserSidebar />
         )}
+        <a
+          className="nav-link d-flex text-accent-2 align-items-center"
+          href="#"
+          onClick={handleLogout}
+        >
+          <BsBoxArrowLeft className="bi me-2" style={{ color: "#6d3170" }} />
+          Logout
+        </a>
       </ul>
       <div className="d-flex align-items-center">
         <BsPersonCircle
           className="bi me-2"
           style={{ color: "#6d3170", width: "32px", height: "32px" }}
         />
-        <a
-          className="nav-link d-flex text-accent-2 align-items-center"
-          href="#"
-          onClick={handleLogout}
-        >
-          <CiLogout
-            className="bi me-2"
-            style={{ color: "#6d3170", width: "32px", height: "32px" }}
-          />
-          Logout
-        </a>
+        <span style={{ color: "#6d3170" }}>{user.email}</span>
       </div>
     </div>
   );
