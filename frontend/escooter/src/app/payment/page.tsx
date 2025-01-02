@@ -1,4 +1,4 @@
-'use client'; // Viktigt för att använda klientkod i app-mappen
+'use client'; 
 
 import { useState, useEffect  } from 'react';
 import { loadStripe } from '@stripe/stripe-js';

@@ -1,10 +1,11 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { BsTrash, BsPencil } from "react-icons/bs";
 
-function UserListCard() {
-  const users = ["Alfred", "Alexander", "Daniel"];
+function UserListCard({ users } : { users: string[] }) {
 
+  console.log("users in userListCard",users);
+  
   return (
     <div className="card border border-2 shadow-sm" style={{ width: "100%" }}>
       <div className="card-body">

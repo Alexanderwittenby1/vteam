@@ -1,17 +1,17 @@
 // src/app/profile/page.tsx
-
+import { fetchUserData } from "@/services/fetchUserData";
 import Sidebar from "../../components/sidebar/Sidebar";
+import RecentTransactions from "@/components/UserDashboard/RecentTransactions";
+import RecentTrips from "@/components/UserDashboard/RecentTripsUser";
+import StatCard from "@/components/UserDashboard/StatCard";
+import { cookies } from "next/headers";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { hasPermission } from "@/services/rbac";
 
 const Profile = async () => {
-  const res = await fetch("http://backend:4000/user/profile", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include", // Viktigt att inkludera cookies här
-  });
-  const user = await res.json();
-  console.log(user);
+  const cookieStore = await cookies();
+  const token = (await cookieStore.get("token")?.value) || "";
+  const user = await fetchUserData(token);
 
   return (
     <div
@@ -22,7 +22,7 @@ const Profile = async () => {
         <Sidebar user={user} />
       </div>
 
-      {/* <div
+      <div
         className="d-flex flex-column"
         style={{ flex: "1", overflowY: "auto" }}
       >
@@ -79,7 +79,7 @@ const Profile = async () => {
             </div>
           </div>
         )}
-      </div> */}
+      </div>
     </div>
   );
 };

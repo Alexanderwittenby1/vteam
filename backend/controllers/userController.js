@@ -59,6 +59,7 @@ exports.loginUser = async (req, res) => {
 
   try {
     const user = await userModel.getUserByEmail(email);
+    console.log("User:", user);
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -76,14 +77,16 @@ exports.loginUser = async (req, res) => {
     // Skicka tillbaka JWT-token som en HttpOnly cookie
     res.cookie("token", jwtToken, {
       httpOnly: true,
-      secure: false, // Testa utan secure om du inte använder HTTPS under utveckling
+      secure: false,
       maxAge: 3600000,
-      sameSite: "Lax", // Prova att sätta till "Lax" eller "None"
+      sameSite: "Lax",
     });
-    console.log("Token cookie set:", jwtToken); // För att kolla om cookien sätts
+
+    console.log();
 
     return res.status(200).json({
       message: "Login successful",
+      token: jwtToken,
       role: user.role,
     });
   } catch (error) {
@@ -101,71 +104,6 @@ exports.getTripsByUserId = (req, res) => {
     }
     res.status(200).json(trips);
   });
-};
-
-exports.addTrip = async (req, res) => {
-  console.log("User from token:", req.user);
-
-  const {
-    start_time,
-    end_time,
-    start_location,
-    end_location,
-    distance,
-    cost,
-    base_fee,
-    time_fee,
-    parking_fee,
-    scooter_id,
-    payment_status,
-  } = req.body;
-
-  const userId = req.user.userId;
-
-  if (
-    !userId ||
-    !start_time ||
-    !start_location ||
-    !scooter_id ||
-    !payment_status
-  ) {
-    return res.status(400).json({
-      message: "Missing required fields",
-      missingFields: {
-        userId,
-        start_time,
-        start_location,
-        scooter_id,
-        payment_status,
-      },
-    });
-  }
-
-  const tripData = {
-    user_id: userId,
-    scooter_id,
-    start_time,
-    end_time,
-    start_location,
-    end_location,
-    distance,
-    cost,
-    base_fee,
-    time_fee,
-    parking_fee,
-    payment_status,
-  };
-
-  try {
-    const tripId = await userModel.addTrip(tripData);
-    res.status(201).json({
-      message: "Trip added successfully",
-      tripId,
-    });
-  } catch (error) {
-    console.error("Error adding trip:", error);
-    res.status(500).json({ error: "Internal server error", tripData });
-  }
 };
 
 // Uppdatera lösenord

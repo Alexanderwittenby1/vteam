@@ -90,8 +90,23 @@ CREATE TABLE ScooterLog (
     FOREIGN KEY (scooter_id) REFERENCES Scooter(scooter_id)
 );
 
--- Stored procedures
-DELIMITER //
+CREATE TABLE RecentTrips (
+    trip_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    scooter_id INT NOT NULL,
+    start_time DATETIME NOT NULL,
+    end_time DATETIME,
+    start_location POINT NOT NULL,
+    end_location POINT,
+    distance DECIMAL(10,2),
+    cost DECIMAL(10,2),
+    time_fee DECIMAL(10,2),
+    parking_fee DECIMAL(10,2),
+    payment_status VARCHAR(20) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user_table(user_id),
+    FOREIGN KEY (scooter_id) REFERENCES Scooter(scooter_id)
+);
+
 
 CREATE PROCEDURE get_user_data (IN email VARCHAR(100))
 BEGIN
