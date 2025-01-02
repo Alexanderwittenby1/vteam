@@ -19,7 +19,7 @@ const UserSidebar = () => {
       <li className="nav-item">
         <a
           className="nav-link d-flex text-accent-2 align-items-center"
-          href="#home"
+          href="/UserHistory"
         >
           <BsClockHistory className="bi me-2" style={{ color: "#6d3170" }} />
           History

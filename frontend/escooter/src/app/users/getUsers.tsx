@@ -1,4 +1,4 @@
-"use client";
+
 import { useState, useEffect } from "react";
 
 interface User {
@@ -21,7 +21,7 @@ export function useGetUsers() {
   useEffect(() => {
     async function fetchUsers() {
       try {
-        const response = await fetch("http://localhost:4000/user/admin", {
+        const response = await fetch("http://localhost:4000/admin/getAllUsers", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
