@@ -197,3 +197,15 @@
 2024-12-19 19:18:29 - GET /scooter/all - 172.18.0.1
 2024-12-19 19:18:36 - GET /scooter/all - 172.18.0.1
 2024-12-30 12:50:02 - GET /scooter/all - 172.18.0.1
+2024-12-31 11:17:53 - POST /user/updatePassword - 172.18.0.1
+2024-12-31 14:26:36 - POST /user/updatePassword - 172.18.0.1
+2024-12-31 14:28:53 - POST /user/updatePassword - 172.18.0.1
+2024-12-31 14:33:34 - POST /user/updatePassword - 172.18.0.1
+2025-01-02 11:09:34 - GET /user/addTrip - 172.18.0.1
+2025-01-02 12:42:08 - GET /bike/add - 172.18.0.1
+2025-01-02 13:08:53 - GET /admin/all - 172.18.0.1
+2025-01-02 13:09:50 - GET /admin/all - 172.18.0.1
+2025-01-02 13:10:25 - GET /admin/all - 172.18.0.1
+2025-01-02 13:11:17 - GET /admin/all - 172.18.0.1
+2025-01-02 19:21:42 - GET /station/getAllChargingStations/2 - 172.18.0.1
+2025-01-02 19:21:51 - GET /station/2 - 172.18.0.1

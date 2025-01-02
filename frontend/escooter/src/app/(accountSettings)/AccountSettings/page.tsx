@@ -1,9 +1,14 @@
-import React from 'react'
+import React from 'react';
+import AccountSettingsMenu from '../../../components/accountsettings/page';
 
-const AccountSettings = () => {
+const AccountSettingsPage = () => {
   return (
-    <div>AccountSettings</div>
-  )
-}
+    <div>
+      <h1>Account Settings</h1>
+      
+      <AccountSettingsMenu />
+    </div>
+  );
+};
 
-export default AccountSettings
+export default AccountSettingsPage;

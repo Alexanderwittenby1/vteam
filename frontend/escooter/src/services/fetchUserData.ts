@@ -1,12 +1,12 @@
 export const fetchUserData = async (token: string) => {
   try {
+    console.log("Token in fetchUserData", token);
     const response = await fetch("http://backend:4000/user/profile", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      credentials: "include", // Viktigt att inkludera cookies här
     });
 
     if (response.ok) {

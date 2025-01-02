@@ -1,13 +1,18 @@
 // src/app/profile/page.tsx
 import { fetchUserData } from "@/services/fetchUserData";
 import Sidebar from "../../components/sidebar/Sidebar";
+import RecentTransactions from "@/components/UserDashboard/RecentTransactions";
+import RecentTrips from "@/components/UserDashboard/RecentTripsUser";
+import StatCard from "@/components/UserDashboard/StatCard";
 import { cookies } from "next/headers";
-import "bootstrap/dist/css/bootstrap.min.css"; // CSS för Bootstrap
+import "bootstrap/dist/css/bootstrap.min.css";
+import { hasPermission } from "@/services/rbac";
 
 const Profile = async () => {
   const cookieStore = await cookies();
   const token = (await cookieStore.get("token")?.value) || "";
   const user = await fetchUserData(token);
+
   return (
     <div
       className="d-flex bg-color-2 p-3"
@@ -17,7 +22,7 @@ const Profile = async () => {
         <Sidebar user={user} />
       </div>
 
-      {/* <div
+      <div
         className="d-flex flex-column"
         style={{ flex: "1", overflowY: "auto" }}
       >
@@ -35,7 +40,7 @@ const Profile = async () => {
             <div className="container">
               <div className="row">
                 <div className="col-md-6 mb-3">
-                  <RecentTrips />
+                  <RecentTrips array={recentTrips} />
                 </div>
                 <div className="col-md-6 mb-3">
                   <RecentTransactions />
@@ -44,24 +49,28 @@ const Profile = async () => {
               <div className="row">
                 <div className="col-md-3 mb-3">
                   <StatCard
-                    stat={"46km"}
+                    stat={`${tripData.totalDistance(userTrips)}km`}
                     text={"Total distance travelled"}
                     icon={BsBarChart}
                   />
                 </div>
                 <div className="col-md-3 mb-3">
-                  <StatCard stat={"24"} text={"Trips made"} icon={BsScooter} />
+                  <StatCard
+                    stat={tripData.totalTrips(userTrips)}
+                    text={"Trips made"}
+                    icon={BsScooter}
+                  />
                 </div>
                 <div className="col-md-3 mb-3">
                   <StatCard
-                    stat={"5.3kg CO₂"}
+                    stat={`${tripData.co2(userTrips)}kg CO₂`}
                     text={"Carbon saved"}
                     icon={BsTree}
                   />
                 </div>
                 <div className="col-md-3 mb-3">
                   <StatCard
-                    stat={"323,87kr"}
+                    stat={`${user.balance}kr`}
                     text={"Balance"}
                     icon={BsWallet2}
                   />
@@ -70,7 +79,7 @@ const Profile = async () => {
             </div>
           </div>
         )}
-      </div> */}
+      </div>
     </div>
   );
 };

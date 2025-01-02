@@ -10,6 +10,7 @@ exports.getAll = (req, res) => {
 };
 
 exports.add = (req, res) => {
+  console.log("Body:", req.body);
   scooterModel.addScooterToDb(req.body, (error, result) => {
     if (error) {
       return res.status(500).json({ error: "Internt serverfel" });
@@ -40,4 +41,15 @@ exports.updateBikePosition = (req, res) => {
       res.status(200).json({ message: "Position updated successfully" });
     }
   );
+};
+
+
+exports.rent = (req, res) => {
+  const { scooter_id, user_id } = req.body;
+  scooterModel.rentScooter(scooter_id, user_id, (error, result) => {
+    if (error) {
+      return res.status(500).json({ error: "Internt serverfel" });
+    }
+    res.status(200).json(result);
+  });
 };

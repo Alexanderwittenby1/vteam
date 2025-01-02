@@ -3,7 +3,6 @@ import "./globals.css";
 import MobileNavBar from "@/components/MobileNavBar";
 import { useDeviceDetection } from "@/components/map/useDeviceDetection";
 import { usePathname } from "next/navigation";
-import Navbar from "@/components/Navbar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,10 +24,17 @@ const geistMono = localFont({
 //   const isAuthPage = pathname === "/login" || pathname === "/register";
 //   const shouldAddPadding = isMobile && !isAuthPage;
 
+// // Client Component wrapper
+// function LayoutWrapper({ children }: { children: React.ReactNode }) {
+//   const { isMobile } = useDeviceDetection();
+//   const pathname = usePathname();
+
+//   // Don't add padding on login and register pages
+//   const isAuthPage = pathname === '/login' || pathname === '/register';
+//   const shouldAddPadding = isMobile && !isAuthPage;
+
 //   return (
-//     <div
-//       className={`min-h-screen bg-gray-50 ${shouldAddPadding ? "pb-16" : ""}`}
-//     >
+//     <div className={`min-h-screen bg-gray-50 ${shouldAddPadding ? 'pb-16' : ''}`}>
 //       <main>{children}</main>
 //       <MobileNavBar />
 //     </div>
