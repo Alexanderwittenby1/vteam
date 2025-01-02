@@ -25,8 +25,7 @@ router.get("/profile", verifyToken, userController.getUserByEmail);
 // Rutt för att hämta alla trips för en användare (kräver att användaren är inloggad)
 router.get("/trips", verifyToken, userController.getTripsByUserId);
 
-// Rutt för att lägga till en trip (kräver att användaren är inloggad)
-router.post("/addTrip", verifyToken, userController.addTrip);
+
 
 // Rutt för att hämta alla användare (endast för admin)
 router.get("/admin", verifyToken, isAdmin, userController.getAllUsers);

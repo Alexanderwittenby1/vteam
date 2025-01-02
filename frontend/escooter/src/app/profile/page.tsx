@@ -7,6 +7,8 @@ import { hasPermission } from "../../services/rbac";
 import StatCard from "../../components/UserDashboard/StatCard";
 import { BsBarChart, BsScooter, BsTree, BsWallet2 } from "react-icons/bs";
 import { cookies } from 'next/headers';
+import { get } from "http";
+
 
 
 const Profile = async () => {
@@ -14,6 +16,7 @@ const Profile = async () => {
   const token = cookieStore.get('token')?.value || '';
 
   const user = await fetchUserData(token);
+  
     
 
   if (!user) {

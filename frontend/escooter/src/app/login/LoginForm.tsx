@@ -1,129 +1,113 @@
-"use client"
-import { redirect } from "next/navigation";
-import { useState } from "react";
+import React, { useState } from 'react';
+import Image from 'next/image';
+import { Login } from '../api/login/route'; // Importera Login-funktionen
+import { redirect } from 'next/navigation'; // Importera redirect
 
-
-function LoginForm() {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+const LoginForm = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  
-  
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setIsSubmitting(true);
-    const userData = {
-      email,
-      password,
-    };
+    setErrorMessage('');
 
     try {
-      const response = await fetch("http://localhost:4000/user/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-        credentials: "include", 
-      });
-      const responseBody = await response.json();
-      
+      const success = await Login(password, email); // Använd Login-funktionen
+      console.log('Login success:', success);
 
-      if (response.ok) {
-        setErrorMessage(null);
-       
-        setTimeout(() => {
-          redirect("/profile"); // Redirect till profil-sidan
-        }, 1000); // Du kan justera fördröjningen här om du vill visa ett meddelande först
+      if (success) {
+        console.log('Login successfuly');
+        // Redirect to the profile page
+        window.location.href = '/profile';
       } else {
-        setErrorMessage(
-          responseBody.message || "Something went wrong during login."
-        );
+        setErrorMessage('Something went wrong during login.');
       }
     } catch (error) {
-      setErrorMessage("An error occurred. Please try again later.");
-      console.error("An error occurred:", error);
+      setErrorMessage('An error occurred. Please try again later.');
+      console.error('An error occurred:', error);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <section className="vh-100">
-      <div className="mask d-flex align-items-center h-100 bg-color-1">
-        <div className="container h-100">
-          <div className="row d-flex justify-content-center align-items-center h-100">
-            <div className="col-12 col-md-9-col-lg-7 col-xl-6">
-              <div className="card shadow" style={{ borderRadius: "15px" }}>
-                <div className="card-body p-5">
-                  <h2 className="text-uppercase text-center mb-5 text-accent-2">
-                    Login
-                  </h2>
-                  <form onSubmit={handleSubmit}>
-                    <div data-mdb-input-init className="form-outline mb-4">
-                      <input
-                        type="email"
-                        id="loginformemail"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                        className="form-control form-control-lg"
-                      />
-                      <label className="form-label" htmlFor="loginformemail">
-                        Email
-                      </label>
-                    </div>
-
-                    <div data-mdb-input-init className="form-outline mb-4">
-                      <input
-                        type="password"
-                        id="loginformpassword"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                        className="form-control form-control-lg"
-                      />
-                      <label className="form-label" htmlFor="loginformpassword">
-                        Password
-                      </label>
-                    </div>
-
-                    <button
-                      type="submit"
-                      className="btn btn-primary w-100"
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting ? "Logging in..." : "Login"}
-                    </button>
-
-                    {errorMessage && (
-                      <div className="alert alert-danger mt-3">
-                        {errorMessage}
-                      </div>
-                    )}
-                    <p className="text-center mt-3 d-flex justify-content-left">
-                      Sign in with GitHub
-                      <a href="/signInWithGitHub" className="fw-bold text-accent-1">Sign in with github</a>
-                    </p>
-
-                    <p className="text-center mt-3 d-flex justify-content-left ">
-                      Don't have an account?{" "}
-                      <a href="/register" className="fw-bold text-accent-1">
-                        Register here
-                      </a>
-                    </p>
-                  </form>
-                </div>
+    <section className="min-h-screen relative">
+      {/* Hero Section */}
+      <div className="relative h-screen">
+        <div className="absolute inset-0">
+          <Image
+            src="/karlskrona.png"
+            alt="Karlskrona city view"
+            fill
+            priority
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-black/30" /> {/* Overlay */}
+        </div>
+        <div className="relative z-10 flex items-center justify-center h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+            <h2 className="text-3xl font-bold text-center mb-6 text-accent-2">
+              Login
+            </h2>
+            <form onSubmit={handleSubmit}>
+              <div className="form-outline mb-4">
+                <input
+                  type="email"
+                  id="loginformemail"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="form-control form-control-lg"
+                />
+                <label className="form-label" htmlFor="loginformemail">
+                  Email
+                </label>
               </div>
-            </div>
+
+              <div className="form-outline mb-4">
+                <input
+                  type="password"
+                  id="loginformpassword"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="form-control form-control-lg"
+                />
+                <label className="form-label" htmlFor="loginformpassword">
+                  Password
+                </label>
+              </div>
+
+              {errorMessage && (
+                <div className="alert alert-danger" role="alert">
+                  {errorMessage}
+                </div>
+              )}
+
+              <div className="d-flex justify-content-center mb-4">
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-lg"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? 'Logging in...' : 'Login'}
+                </button>
+              </div>
+
+              <div className="d-flex justify-content-center">
+                <a href="/register" className="btn btn-link">
+                  Create an account
+                </a>
+              </div>
+            </form>
           </div>
         </div>
       </div>
     </section>
   );
-}
+};
 
 export default LoginForm;
