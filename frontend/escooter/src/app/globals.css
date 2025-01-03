@@ -50,3 +50,11 @@ body {
   background: #a6db33; /* Foreground */
   border-radius: 15px;
 }
+
+.list-group-item:nth-child(odd) {
+  background-color: #f8f9fa; /* Ljusgrå färg för udda rader */
+}
+
+.list-group-item:nth-child(even) {
+  background-color: #e9ecef; /* Ljusare grå färg för jämna rader */
+}
