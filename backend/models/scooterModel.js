@@ -64,8 +64,26 @@ const updateBikePositionInDb = (scooterId, latitude, longitude, callback) => {
   });
 };
 
+
+
+const rentScooter = (scooter_id, user_id, callback) => {
+  const sql = "CALL RentScooter(?, ?)";
+  db.query(sql, [scooter_id, user_id], (error, results) => {
+    if (error) {
+      return callback(error, null);
+    }
+    return callback(null, results);
+  });
+};
+
+module.exports = {
+  rentScooter,
+  // andra funktioner...
+};
+
 module.exports = {
   getAllScootersFromdb,
   addScooterToDb,
   updateBikePositionInDb,
+  rentScooter,
 };

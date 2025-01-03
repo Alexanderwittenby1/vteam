@@ -1,0 +1,205 @@
+const express = require("express");
+const dotenv = require("dotenv");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const compression = require("compression");
+const logEvents = require("./middleware/logEvents");
+const userRoutes = require("./routes/userRoutes");
+const adminRoutes = require("./routes/adminRoutes");
+const scooterRoutes = require("./routes/scooterRoutes");
+const stationRoutes = require("./routes/stationRoutes");
+const userController = require("./controllers/userController");
+const http = require("http");
+const WebSocket = require("ws");
+const mysql = require("mysql");
+const Stripe = require('stripe');
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+
+dotenv.config();
+const app = express();
+
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:3000",
+  })
+);
+app.use(cookieParser());
+app.use(compression());
+
+// Skapa en HTTP-server
+const server = http.createServer(app);
+
+// Skapa en WebSocket-server
+const wss = new WebSocket.Server({ server });
+
+let timers = {};
+let startTimes = {};
+
+// Skapa en MySQL-anslutning
+const db = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "password",
+  database: "mydatabase"
+});
+
+db.connect((err) => {
+  if (err) throw err;
+  console.log("Connected to MySQL database");
+});
+
+// Lyssna på ändringar i loggtabellen
+setInterval(() => {
+  db.query("SELECT * FROM ride_logs WHERE timestamp > NOW() - INTERVAL 1 SECOND", (err, results) => {
+    if (err) throw err;
+    results.forEach((log) => {
+      wss.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify(log));
+        }
+      });
+    });
+  });
+}, 1000);
+
+wss.on('connection', (ws) => {
+  console.log('Client connected');
+
+  ws.on('message', (message) => {
+    console.log(`Received message => ${message}`);
+    try {
+      const parsedMessage = JSON.parse(message);
+      console.log('Action:', parsedMessage.action);
+
+      if (parsedMessage.action === 'start_ride') {
+        console.log('Starting the ride');
+        const startTime = Date.now();
+        startTimes[ws] = startTime;
+        timers[ws] = setInterval(() => {
+          const elapsedTime = Date.now() - startTime;
+          ws.send(JSON.stringify({ action: 'ride_update', elapsedTime }));
+        }, 1000); // Uppdatera varje sekund
+      }
+
+      if (parsedMessage.action === 'end_ride') {
+        if (timers[ws]) {
+          clearInterval(timers[ws]);
+          delete timers[ws];
+        }
+        if (startTimes[ws]) {
+          const endTime = Date.now();
+          const totalTime = endTime - startTimes[ws];
+          
+          ws.send(JSON.stringify({ action: 'ride_ended', totalTime: totalTime / 1000 }));
+          delete startTimes[ws];
+        }
+      }
+
+      // Hantera andra inkommande meddelanden här
+      ws.send(JSON.stringify({ message: 'Message received' }));
+    } catch (error) {
+      console.error('Error parsing message from client:', error);
+      ws.send(JSON.stringify({ error: 'Invalid JSON' }));
+    }
+  });
+
+  ws.on('close', () => {
+    console.log('Client disconnected');
+    if (timers[ws]) {
+      clearInterval(timers[ws]);
+      delete timers[ws];
+    }
+    if (startTimes[ws]) {
+      delete startTimes[ws];
+    }
+  });
+});
+
+console.log('WebSocket server is running');
+
+// Middleware för att hantera Stripe-webhooks
+app.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
+  const sig = req.headers['stripe-signature'];
+  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+  let event;
+
+  try {
+    event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+    const userId = event.data.object.metadata.userId;
+
+    if (event.type === 'payment_intent.succeeded') {
+      const paymentIntent = event.data.object;
+      console.log(`Betalning mottagen från användare: ${userId}`);
+      const amountPaid = paymentIntent.amount_received; // Beloppet som betalades (i minsta enhet, t.ex. ören)
+      console.log(`Betalning mottagen: ${amountPaid} SEK från användare: ${userId}`);
+      userController.updateUserBalance(userId, amountPaid);
+      console.log(`Betalning lyckades! Uppdaterade ${userId}'s saldo: ${amountPaid} SEK`);
+    }
+  } catch (err) {
+    console.log(`Webhook error: ${err.message}`);
+    return res.status(400).send(`Webhook error: ${err.message}`);
+  }
+  res.status(200).send('Webhook received');
+});
+
+app.use(express.json());
+app.use("/user", userRoutes);
+app.use("/bike", scooterRoutes);
+app.use("/admin", adminRoutes);
+app.use("/station", stationRoutes);
+
+app.post('/logout', (req, res) => {
+  res.clearCookie('token', {
+    httpOnly: true,
+    secure: false,  // Testa utan secure om du inte använder HTTPS under utveckling
+    sameSite: 'Lax',
+  });
+  res.status(200).json({ message: 'Logout successful' });
+});
+
+app.use(async (req, res, next) => {
+  await logEvents(req, res, next); // Logga alla cookies som kommer med begäran
+  next();
+});
+
+const PORT = process.env.PORT || 4000;
+server.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
+process.on("SIGINT", () => {
+  console.log("Server is shutting down...");
+  process.exit();
+});
+
+
+-- Skapa en loggtabell
+CREATE TABLE ride_logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    scooter_id INT,
+    action VARCHAR(50),
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Trigger för att logga start av resa
+CREATE TRIGGER log_start_ride
+AFTER UPDATE ON rides
+FOR EACH ROW
+BEGIN
+    IF NEW.start_time IS NOT NULL AND OLD.start_time IS NULL THEN
+        INSERT INTO ride_logs (user_id, scooter_id, action) VALUES (NEW.user_id, NEW.scooter_id, 'start_ride');
+    END IF;
+END;
+
+-- Trigger för att logga slut av resa
+CREATE TRIGGER log_end_ride
+AFTER UPDATE ON rides
+FOR EACH ROW
+BEGIN
+    IF NEW.end_time IS NOT NULL AND OLD.end_time IS NULL THEN
+        INSERT INTO ride_logs (user_id, scooter_id, action) VALUES (NEW.user_id, NEW.scooter_id, 'end_ride');
+    END IF;
+END;

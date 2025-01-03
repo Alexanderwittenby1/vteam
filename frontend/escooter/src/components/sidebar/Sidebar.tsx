@@ -11,7 +11,10 @@ import { hasPermission } from "../../services/rbac";
 
 const Sidebar = ({ user }: { user: ReactNode }) => {
   const router = useRouter();
+<<<<<<< HEAD
+=======
 
+>>>>>>> a745d62d9527b152d0daf7b51e0a6d39cecf6a1b
   const handleLogout = async () => {
     try {
       const response = await fetch("http://localhost:4000/logout", {

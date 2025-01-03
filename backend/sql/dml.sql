@@ -48,3 +48,17 @@ INSERT INTO Trip (user_id, scooter_id, start_time, end_time, start_location, end
 INSERT INTO ScooterLog (scooter_id, timestamp, location, speed, battery_level, event_type) VALUES
 (1, '2023-11-28 08:05:00', ST_PointFromText('POINT(-74.002 40.711)'), 15.00, 80.00, 'Movement'),
 (2, '2023-11-28 08:15:00', ST_PointFromText('POINT(-73.980 40.728)'), 0.00, 45.25, 'Charging');
+
+
+DELIMITER //
+
+CREATE PROCEDURE RentScooter(IN scooter_id INT, IN user_id INT)
+BEGIN
+  -- Uppdatera scooterns tillgänglighet
+  UPDATE Scooter SET is_available = 0 WHERE scooter_id = scooter_id;
+
+  -- Lägg till en ny resa med start_time
+  INSERT INTO Trip (scooter_id, user_id, start_time) VALUES (scooter_id, user_id, NOW());
+END //
+
+DELIMITER ;

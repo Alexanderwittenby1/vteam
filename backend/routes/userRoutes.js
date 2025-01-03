@@ -31,6 +31,8 @@ router.put("/updatePassword", verifyToken, userController.updatePassword);
 // Rutt för att sätta in pengar på sitt konto (kräver att användaren är inloggad)
 router.put("/addMoney", verifyToken, userController.addMoney);
 
+
+
 // Rutt för att skapa en Stripe Checkout-session
 router.post("/create-checkout-session", async (req, res) => {
   try {

@@ -43,6 +43,15 @@ const UserSidebar = () => {
           Account settings
         </Link>
       </li>
+      <li className="nav-item">
+        <Link
+          className="nav-link d-flex text-accent-2 align-items-center"
+          href="/webSocket"
+        >
+          <CgProfile className="bi me-2" style={{ color: "#6d3170" }} />
+          WebSocket
+        </Link>
+      </li>
       
     </ul>
   );

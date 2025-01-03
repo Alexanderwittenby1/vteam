@@ -9,8 +9,9 @@ const adminRoutes = require("./routes/adminRoutes");
 const scooterRoutes = require("./routes/scooterRoutes");
 const stationRoutes = require("./routes/stationRoutes");
 const userController = require("./controllers/userController");
-
-const Stripe = require("stripe");
+const http = require("http");
+const handleWebSocket = require("./webSocketHandler");
+const Stripe = require('stripe');
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
 dotenv.config();
@@ -25,33 +26,37 @@ app.use(
 app.use(cookieParser());
 app.use(compression());
 
-app.post("/webhook", express.raw({ type: "application/json" }), (req, res) => {
-  const sig = req.headers["stripe-signature"];
-  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+// Skapa en HTTP-server
+const server = http.createServer(app);
+server.listen(8080, () => {
+  console.log('WebSocket server running on port 8080');
+});
+// Använd WebSocket-hanteraren
+handleWebSocket(server);
 
+app.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
+  const sig = req.headers['stripe-signature'];
+  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  
   let event;
 
   try {
     event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
     const userId = event.data.object.metadata.userId;
 
-    if (event.type === "payment_intent.succeeded") {
+    if (event.type === 'payment_intent.succeeded') {
       const paymentIntent = event.data.object;
       console.log(`Betalning mottagen från användare: ${userId}`);
       const amountPaid = paymentIntent.amount_received; // Beloppet som betalades (i minsta enhet, t.ex. ören)
-      console.log(
-        `Betalning mottagen: ${amountPaid} SEK från användare: ${userId}`
-      );
+      console.log(`Betalning mottagen: ${amountPaid} SEK från användare: ${userId}`);
       userController.updateUserBalance(userId, amountPaid);
-      console.log(
-        `Betalning lyckades! Uppdaterade ${userId}'s saldo: ${amountPaid} SEK`
-      );
+      console.log(`Betalning lyckades! Uppdaterade ${userId}'s saldo: ${amountPaid} SEK`);
     }
   } catch (err) {
     console.log(`Webhook error: ${err.message}`);
     return res.status(400).send(`Webhook error: ${err.message}`);
   }
-  res.status(200).send("Webhook received");
+  res.status(200).send('Webhook received');
 });
 
 app.use(express.json());
@@ -60,13 +65,13 @@ app.use("/bike", scooterRoutes);
 app.use("/admin", adminRoutes);
 app.use("/station", stationRoutes);
 
-app.post("/logout", (req, res) => {
-  res.clearCookie("token", {
+app.post('/logout', (req, res) => {
+  res.clearCookie('token', {
     httpOnly: true,
-    secure: false, // Testa utan secure om du inte använder HTTPS under utveckling
-    sameSite: "Lax",
+    secure: false,  // Testa utan secure om du inte använder HTTPS under utveckling
+    sameSite: 'Lax',
   });
-  res.status(200).json({ message: "Logout successful" });
+  res.status(200).json({ message: 'Logout successful' });
 });
 
 app.use(async (req, res, next) => {
@@ -75,7 +80,6 @@ app.use(async (req, res, next) => {
 });
 
 const PORT = process.env.PORT || 4000;
-
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server is running on port ${PORT}`);
 });

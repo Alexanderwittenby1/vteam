@@ -24,6 +24,7 @@ CREATE TABLE City (
 -- Create Scooter table
 CREATE TABLE Scooter (
     scooter_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NULL,
     city_id INT NOT NULL,
     latitude DECIMAL(9, 6) NOT NULL,
     longitude DECIMAL(9, 6) NOT NULL,
@@ -32,8 +33,10 @@ CREATE TABLE Scooter (
     needs_service BOOLEAN DEFAULT FALSE,
     is_charging BOOLEAN DEFAULT FALSE,
     last_maintenance DATETIME,
+    simulation_id INT NULL,
     status VARCHAR(20) NOT NULL,
-    FOREIGN KEY (city_id) REFERENCES City(city_id)
+    FOREIGN KEY (city_id) REFERENCES City(city_id),
+    FOREIGN KEY (user_id) REFERENCES user_table(user_id)
 );
 
 
@@ -70,7 +73,6 @@ CREATE TABLE Trip (
     end_location POINT,
     distance DECIMAL(10,2),
     cost DECIMAL(10,2),
-    base_fee DECIMAL(10,2) NOT NULL,
     time_fee DECIMAL(10,2),
     parking_fee DECIMAL(10,2),
     payment_status VARCHAR(20) NOT NULL,
