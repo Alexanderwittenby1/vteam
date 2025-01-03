@@ -9,22 +9,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { hasPermission } from "@/services/rbac";
 import { fetchTripData } from "@/services/fetchUserTrips";
 import { BsBarChart, BsScooter, BsTree, BsWallet2 } from "react-icons/bs";
-<<<<<<< HEAD
-=======
-import { cookies } from 'next/headers';
 
 
-const Profile = async () => {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('token')?.value || '';
-  const user = await fetchUserData(token);
+
   
-  
-  if (!user) {
-    return <p>Loading...</p>;
-  }
+ 
 
->>>>>>> a745d62d9527b152d0daf7b51e0a6d39cecf6a1b
 
 const Profile = async () => {
   const cookieStore = await cookies();
@@ -32,11 +22,15 @@ const Profile = async () => {
   const user = await fetchUserData(token);
 
   const trips = await fetchTripData(token);
+   if (!user) {
+    return <p>Loading...</p>;
+  }
   
 
   const tripData = {
     totalDistance: function (trips) {
       if (!Array.isArray(trips)) {
+        
         console.error("Invalid input: trips should be an array.");
         return 0;
       }
@@ -68,10 +62,6 @@ const Profile = async () => {
     },
   };
 
-<<<<<<< HEAD
-=======
-
->>>>>>> a745d62d9527b152d0daf7b51e0a6d39cecf6a1b
   return (
     <div
       className="d-flex bg-color-2 p-3"
@@ -109,7 +99,7 @@ const Profile = async () => {
               <div className="row">
                 <div className="col-md-3 mb-3">
                   <StatCard
-                    stat={`${tripData.totalDistance(trips)}km`}
+                    stat={`${tripData.totalDistance(trips)} Meters`}
                     text={"Total distance travelled"}
                     icon={BsBarChart}
                   />
