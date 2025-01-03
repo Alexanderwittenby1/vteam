@@ -1,35 +1,31 @@
-"use client"
-import React, { ReactNode } from 'react';
-import Image from 'next/image';
-import { BsPersonCircle } from 'react-icons/bs';
-import { CiLogout } from 'react-icons/ci';
-import AdminSidebar from './AdminSidebar';
-import UserSidebar from './UserSidebar';
-import logo from '../../../public/gogo.png';
-import { useRouter } from 'next/navigation';
-import { hasPermission } from '../../services/rbac';
+"use client";
+import React, { ReactNode } from "react";
+import Image from "next/image";
+import { BsPersonCircle } from "react-icons/bs";
+import { CiLogout } from "react-icons/ci";
+import AdminSidebar from "./AdminSidebar";
+import UserSidebar from "./UserSidebar";
+import logo from "../../../public/gogo.png";
+import { useRouter } from "next/navigation";
+import { hasPermission } from "../../services/rbac";
 
-
-
-
-const Sidebar = ({ user }: {user: ReactNode}) => {
-  
+const Sidebar = ({ user }: { user: ReactNode }) => {
   const router = useRouter();
-  
+
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost:4000/logout', {
-        method: 'POST',
-        credentials: 'include',
+      const response = await fetch("http://localhost:4000/logout", {
+        method: "POST",
+        credentials: "include",
       });
 
       if (response.ok) {
-        router.push('/login'); // Redirect to login page after logout
+        router.push("/login"); // Redirect to login page after logout
       } else {
-        console.error('Failed to logout');
+        console.error("Failed to logout");
       }
     } catch (error) {
-      console.error('Error during logout:', error);
+      console.error("Error during logout:", error);
     }
   };
 
@@ -47,8 +43,12 @@ const Sidebar = ({ user }: {user: ReactNode}) => {
       </a>
       <hr></hr>
       <ul className="nav nav-pills flex-column mb-auto">
-        {user && user.role && hasPermission(user.role, "adminView") && <AdminSidebar />}
-        {user && user.role && hasPermission(user.role, "userView") && <UserSidebar />}
+        {user && user.role && hasPermission(user.role, "adminView") && (
+          <AdminSidebar />
+        )}
+        {user && user.role && hasPermission(user.role, "userView") && (
+          <UserSidebar />
+        )}
       </ul>
       <div className="d-flex align-items-center">
         <BsPersonCircle
@@ -60,7 +60,10 @@ const Sidebar = ({ user }: {user: ReactNode}) => {
           href="#"
           onClick={handleLogout}
         >
-          <CiLogout className="bi me-2" style={{ color: "#6d3170", width: "32px", height: "32px" }} />
+          <CiLogout
+            className="bi me-2"
+            style={{ color: "#6d3170", width: "32px", height: "32px" }}
+          />
           Logout
         </a>
       </div>

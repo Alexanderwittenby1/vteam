@@ -43,19 +43,22 @@ const updateUser = async (userId, userData) => {
   return updatedUser[0];
 };
 
-const deleteUser = async (userId,callback) => {
-  db.query("DELETE FROM user_table WHERE user_id = ?;", [userId], (error, results) => {
-    if (error) {
-      return callback(error, null);
+const deleteUser = async (userId, callback) => {
+  db.query(
+    "DELETE FROM user_table WHERE user_id = ?;",
+    [userId],
+    (error, results) => {
+      if (error) {
+        return callback(error, null);
+      }
+      return callback(null, results);
     }
-    return callback(null, results);
-  });
-
-}
+  );
+};
 
 module.exports = {
   getAllUsers,
   getUserById,
   updateUser,
-  deleteUser
+  deleteUser,
 };

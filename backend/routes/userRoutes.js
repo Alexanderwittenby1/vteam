@@ -4,14 +4,11 @@ const userController = require("../controllers/userController");
 const verifyToken = require("../middleware/autMiddleware");
 const isAdmin = require("../middleware/adminMiddleware");
 
-
 const dotenv = require("dotenv");
 dotenv.config(); // Ladda miljövariabler från .env fil
 
-
-const Stripe = require('stripe');
+const Stripe = require("stripe");
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
-
 
 // Rutt för att registrera en användare (utan inloggning)
 router.post("/register", userController.registerUser);
@@ -37,18 +34,20 @@ router.put("/addMoney", verifyToken, userController.addMoney);
 
 
 // Rutt för att skapa en Stripe Checkout-session
-router.post('/create-checkout-session', async (req, res) => {
+router.post("/create-checkout-session", async (req, res) => {
   try {
     const userId = req.body.userId;
-    const successUrl = `${req.headers.origin || 'http://localhost:3000'}/success?session_id={CHECKOUT_SESSION_ID}`;
-    const cancelUrl = `${req.headers.origin || 'http://localhost:3000'}/cancel`;
+    const successUrl = `${
+      req.headers.origin || "http://localhost:3000"
+    }/success?session_id={CHECKOUT_SESSION_ID}`;
+    const cancelUrl = `${req.headers.origin || "http://localhost:3000"}/cancel`;
     console.log(userId);
     // Skapa en Stripe-session
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: req.body.items.map(item => ({
+      payment_method_types: ["card"],
+      line_items: req.body.items.map((item) => ({
         price_data: {
-          currency: 'sek', // Valuta
+          currency: "sek", // Valuta
           product_data: {
             name: item.name, // Produktens namn
           },
@@ -56,7 +55,7 @@ router.post('/create-checkout-session', async (req, res) => {
         },
         quantity: item.quantity, // Antal av produkten
       })),
-      mode: 'payment', // Betalningsläge (köp)
+      mode: "payment", // Betalningsläge (köp)
       success_url: successUrl, // URL för framgång
       cancel_url: cancelUrl,
       metadata: {
@@ -66,10 +65,9 @@ router.post('/create-checkout-session', async (req, res) => {
     // Skicka tillbaka sessionens ID till frontend
     res.json({ id: session.id });
   } catch (err) {
-    console.error('Error creating checkout session:', err); // Logga fel
+    console.error("Error creating checkout session:", err); // Logga fel
     res.status(500).json({ error: err.message });
   }
 });
-
 
 module.exports = router;

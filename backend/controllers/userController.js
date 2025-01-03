@@ -77,18 +77,17 @@ exports.loginUser = async (req, res) => {
     // Skicka tillbaka JWT-token som en HttpOnly cookie
     res.cookie("token", jwtToken, {
       httpOnly: true,
-      secure: false,  
-      maxAge: 3600000, 
-      sameSite: "Lax",  
+      secure: false,
+      maxAge: 3600000,
+      sameSite: "Lax",
     });
 
-    console.log()
-    
+    console.log();
 
     return res.status(200).json({
       message: "Login successful",
       token: jwtToken,
-      role: user.role, 
+      role: user.role,
     });
   } catch (error) {
     console.error(error);
@@ -106,7 +105,6 @@ exports.getTripsByUserId = (req, res) => {
     res.status(200).json(trips);
   });
 };
-
 
 // Uppdatera lösenord
 exports.updatePassword = async (req, res) => {
@@ -128,7 +126,6 @@ exports.updatePassword = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-
 
 exports.addMoney = async (req, res) => {
   const userId = req.user.userId;
@@ -155,4 +152,4 @@ exports.updateUserBalance = async (userId, amount) => {
   } catch (error) {
     console.error("Error updating user balance:", error);
   }
-}
+};

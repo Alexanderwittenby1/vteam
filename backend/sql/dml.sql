@@ -11,9 +11,14 @@ INSERT INTO City (name, boundaries) VALUES
 
 INSERT INTO Scooter (city_id, latitude, longitude, battery_level, is_available, needs_service, is_charging, last_maintenance, status)
 VALUES
-(1, 40.7128, -74.0060, 85.50, TRUE, FALSE, FALSE, '2023-11-15 10:30:00', 'active'),
-(1, 40.7308, -73.9850, 45.25, TRUE, FALSE, TRUE, '2023-11-18 12:00:00', 'charging'),
-(2, 37.7749, -122.4194, 60.00, TRUE, FALSE, FALSE, '2023-11-10 14:30:00', 'active');
+(1, 40.7128, -74.0060, 80.00, TRUE, FALSE, FALSE, '2023-11-28 08:00:00', 'Available'),
+(1, 40.7308, -73.9850, 75.00, TRUE, FALSE, FALSE, '2023-11-28 09:00:00', 'Available'),
+(2, 40.7130, -74.0050, 90.00, TRUE, FALSE, FALSE, '2023-12-01 10:00:00', 'Available'),
+(2, 40.7160, -74.0100, 50.00, TRUE, TRUE, FALSE, '2023-12-03 11:00:00', 'Needs Service'),
+(1, 40.7100, -74.0020, 60.00, TRUE, FALSE, FALSE, '2023-12-07 14:00:00', 'Available'),
+(2, 40.7400, -73.9600, 85.00, TRUE, FALSE, FALSE, '2023-12-10 15:00:00', 'Available'),
+(2, 40.7325, -73.9750, 70.00, TRUE, FALSE, TRUE, '2023-12-15 17:30:00', 'Charging'),
+(1, 40.7115, -74.0055, 40.00, TRUE, TRUE, FALSE, '2023-12-18 18:30:00', 'Needs Service');
 
 
 INSERT INTO ChargingStation (city_id, name, location, capacity) VALUES
@@ -28,7 +33,16 @@ INSERT INTO ParkingZone (city_id, name, boundaries, zone_type, parking_fee) VALU
 
 INSERT INTO Trip (user_id, scooter_id, start_time, end_time, start_location, end_location, distance, cost, base_fee, time_fee, parking_fee, payment_status) VALUES
 (1, 1, '2023-11-28 08:00:00', '2023-11-28 08:30:00', ST_PointFromText('POINT(-74.006 40.7128)'), ST_PointFromText('POINT(-74.000 40.715)'), 5.00, 15.00, 10.00, 3.00, 2.00, 'Paid'),
-(2, 2, '2023-11-28 09:00:00', NULL, ST_PointFromText('POINT(-73.985 40.7308)'), NULL, 0.00, 0.00, 0.00, 0.00, 0.00, 'Pending');
+(2, 2, '2023-11-28 09:00:00', NULL, ST_PointFromText('POINT(-73.985 40.7308)'), NULL, 0.00, 0.00, 0.00, 0.00, 0.00, 'Pending'),
+(1, 3, '2023-12-01 10:00:00', '2023-12-01 10:45:00', ST_PointFromText('POINT(-74.005 40.713)'), ST_PointFromText('POINT(-74.003 40.7125)'), 3.00, 12.50, 8.00, 2.50, 2.00, 'Paid'),
+(1, 2, '2023-12-03 11:30:00', '2023-12-03 12:00:00', ST_PointFromText('POINT(-74.010 40.716)'), ST_PointFromText('POINT(-74.005 40.717)'), 2.50, 10.00, 7.00, 2.00, 1.00, 'Paid'),
+(2, 3, '2023-12-05 13:00:00', '2023-12-05 13:40:00', ST_PointFromText('POINT(-73.980 40.730)'), ST_PointFromText('POINT(-73.975 40.732)'), 3.50, 14.00, 9.00, 3.00, 2.00, 'Pending'),
+(1, 4, '2023-12-07 14:00:00', '2023-12-07 14:25:00', ST_PointFromText('POINT(-74.002 40.710)'), ST_PointFromText('POINT(-74.005 40.7105)'), 4.00, 13.00, 8.00, 2.00, 3.00, 'Paid'),
+(2, 1, '2023-12-10 15:00:00', '2023-12-10 15:30:00', ST_PointFromText('POINT(-73.960 40.740)'), ST_PointFromText('POINT(-73.955 40.742)'), 6.00, 18.00, 12.00, 4.00, 2.00, 'Paid'),
+(1, 2, '2023-12-12 16:00:00', '2023-12-12 16:40:00', ST_PointFromText('POINT(-74.015 40.730)'), ST_PointFromText('POINT(-74.010 40.735)'), 4.50, 16.00, 10.00, 3.00, 2.00, 'Paid'),
+(2, 4, '2023-12-15 17:30:00', '2023-12-15 18:00:00', ST_PointFromText('POINT(-73.975 40.745)'), ST_PointFromText('POINT(-73.970 40.747)'), 5.50, 17.50, 11.00, 4.00, 2.50, 'Pending'),
+(1, 3, '2023-12-18 18:30:00', '2023-12-18 19:00:00', ST_PointFromText('POINT(-74.007 40.711)'), ST_PointFromText('POINT(-74.002 40.712)'), 4.00, 12.00, 8.00, 2.00, 2.00, 'Paid'),
+(2, 1, '2023-12-20 19:00:00', '2023-12-20 19:30:00', ST_PointFromText('POINT(-73.960 40.7405)'), ST_PointFromText('POINT(-73.955 40.7425)'), 6.50, 19.00, 13.00, 4.50, 2.50, 'Paid');
 
 
 INSERT INTO ScooterLog (scooter_id, timestamp, location, speed, battery_level, event_type) VALUES
