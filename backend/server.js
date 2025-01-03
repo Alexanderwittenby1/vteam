@@ -28,11 +28,9 @@ app.use(compression());
 
 // Skapa en HTTP-server
 const server = http.createServer(app);
-
 server.listen(8080, () => {
   console.log('WebSocket server running on port 8080');
 });
-
 // Använd WebSocket-hanteraren
 handleWebSocket(server);
 

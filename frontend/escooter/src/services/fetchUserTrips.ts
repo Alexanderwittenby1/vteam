@@ -1,7 +1,7 @@
-export const fetchUserData = async (token: string) => {
+export const fetchTripData = async (token: string) => {
   try {
-    console.log("Token in fetchUserData", token);
-    const response = await fetch("http://backend:4000/user/profile", {
+    console.log("Token in fetchTripData", token);
+    const response = await fetch("http://backend:4000/user/trips", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

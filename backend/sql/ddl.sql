@@ -110,6 +110,18 @@ CREATE TABLE RecentTrips (
 );
 
 
+CREATE PROCEDURE get_user_data (IN email VARCHAR(100))
+BEGIN
+    SELECT u.*, t.*
+    FROM user_table u
+    LEFT JOIN Trip t ON u.user_id = t.user_id
+    WHERE u.email = email
+    ORDER BY t.start_time DESC
+    LIMIT 10;
+END //
+
+-- Återställ delimiter till semikolon
+DELIMITER ;
 
 -- Create indexes for better query performance
 CREATE INDEX idx_scooter_city ON Scooter(city_id);

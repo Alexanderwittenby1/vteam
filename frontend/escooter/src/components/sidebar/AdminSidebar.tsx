@@ -22,13 +22,13 @@ function AdminSidebar() {
         </Link>
       </li>
       <li className="nav-item">
-        <a
+        <Link
           className="nav-link d-flex text-accent-2 align-items-center"
           href="#home"
         >
           <BsBuilding className="bi me-2" style={{ color: "#6d3170" }} />
           Cities
-        </a>
+        </Link>
       </li>
       <li className="nav-item">
         <Link
