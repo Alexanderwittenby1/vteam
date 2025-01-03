@@ -17,10 +17,10 @@ function RecentTrips(props) {
           {items.map((item) => (
             <li className="list-group-item border-0" key={item.trip_id}>
               <div className="d-flex w-100 justify-content-between">
-                <h5 className="mb-1">{`${item.start_location} - ${item.end_location}`}</h5>
+                <h5 className="mb-1">{`${item.start_location.x}, ${item.start_location.y} - ${item.end_location.x}, ${item.end_location.y}`}</h5>
                 <small>{item.start_time}</small>
               </div>
-              {item.distance}km
+              {item.distance} m
             </li>
           ))}
         </ul>

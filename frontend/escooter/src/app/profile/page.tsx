@@ -16,6 +16,7 @@ const Profile = async () => {
   const user = await fetchUserData(token);
 
   const trips = await fetchTripData(token);
+  
 
   const tripData = {
     totalDistance: function (trips) {

@@ -39,4 +39,4 @@ const registerMessageHandler = (handler: (data: any) => void) => {
   messageHandler = handler;
 };
 
-export { sendMessage, registerMessageHandler };
+export { sendMessage, registerMessageHandler, connectWebSocket };

@@ -46,10 +46,13 @@ const handleWebSocket = (server) => {
             const scooterId = parsedMessage.scooterId;
             const startLocation = startLocations[ws];
             const endLocation = parsedMessage.endLocation;
+            const distance = parsedMessage.distance;
+
+            console.log('Distance:', distance);
             
             
-            const sql = `INSERT INTO Trip (user_id, payment_status, start_location, end_location, scooter_id, start_time, end_time) VALUES (?, 'paid', ST_PointFromText(?), ST_PointFromText(?), ?, ?, ?)`;
-            db.query(sql, [userId, startLocation, endLocation, scooterId, new Date(startTimes[ws]), new Date(endTime)], (error, result) => {
+            const sql = `INSERT INTO Trip (user_id, distance, payment_status, start_location, end_location, scooter_id, start_time, end_time) VALUES (?, ?,'paid', ST_PointFromText(?), ST_PointFromText(?), ?, ?, ?)`;
+            db.query(sql, [userId,distance, startLocation, endLocation, scooterId, new Date(startTimes[ws]), new Date(endTime)], (error, result) => {
               if (error) {
                 console.error('Error inserting trip into database:', error);
               } else {
