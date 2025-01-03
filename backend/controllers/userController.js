@@ -19,7 +19,7 @@ exports.getUserByEmail = async (req, res) => {
 };
 
 exports.getAllUsers = async (req, res) => {
-  await userModel.getAllUsers((error, users) => {
+  userModel.getAllUsers((error, users) => {
     if (error) {
       return res.status(500).json({ error: "Internal server error" });
     }

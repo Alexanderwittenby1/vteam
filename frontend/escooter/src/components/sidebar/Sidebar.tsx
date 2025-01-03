@@ -16,10 +16,6 @@ const Sidebar = ({ user }: {user: ReactNode}) => {
   
   const router = useRouter();
   
-
- 
-
-
   const handleLogout = async () => {
     try {
       const response = await fetch('http://localhost:4000/logout', {

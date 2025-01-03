@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { Login } from '../api/login/route'; // Importera Login-funktionen
-import { redirect } from 'next/navigation'; // Importera redirect
+
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -20,7 +20,6 @@ const LoginForm = () => {
 
       if (success) {
         console.log('Login successfuly');
-        // Redirect to the profile page
         window.location.href = '/profile';
       } else {
         setErrorMessage('Something went wrong during login.');

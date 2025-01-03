@@ -9,14 +9,13 @@ const adminRoutes = require("./routes/adminRoutes");
 const scooterRoutes = require("./routes/scooterRoutes");
 const stationRoutes = require("./routes/stationRoutes");
 const userController = require("./controllers/userController");
-
+const http = require("http");
+const handleWebSocket = require("./webSocketHandler");
 const Stripe = require('stripe');
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
-
 dotenv.config();
 const app = express();
-
 
 app.use(
   cors({
@@ -27,6 +26,15 @@ app.use(
 app.use(cookieParser());
 app.use(compression());
 
+// Skapa en HTTP-server
+const server = http.createServer(app);
+
+server.listen(8080, () => {
+  console.log('WebSocket server running on port 8080');
+});
+
+// Använd WebSocket-hanteraren
+handleWebSocket(server);
 
 app.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
   const sig = req.headers['stripe-signature'];
@@ -68,15 +76,12 @@ app.post('/logout', (req, res) => {
   res.status(200).json({ message: 'Logout successful' });
 });
 
-
-
 app.use(async (req, res, next) => {
-  await logEvents(req, res, next);// Logga alla cookies som kommer med begäran
+  await logEvents(req, res, next); // Logga alla cookies som kommer med begäran
   next();
 });
 
 const PORT = process.env.PORT || 4000;
-
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server is running on port ${PORT}`);
 });

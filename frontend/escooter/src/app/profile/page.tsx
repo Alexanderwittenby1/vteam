@@ -7,21 +7,22 @@ import { hasPermission } from "../../services/rbac";
 import StatCard from "../../components/UserDashboard/StatCard";
 import { BsBarChart, BsScooter, BsTree, BsWallet2 } from "react-icons/bs";
 import { cookies } from 'next/headers';
-import { get } from "http";
-
 
 
 const Profile = async () => {
   const cookieStore = await cookies();
   const token = cookieStore.get('token')?.value || '';
-
   const user = await fetchUserData(token);
   
-    
-
+  
   if (!user) {
     return <p>Loading...</p>;
   }
+
+  
+  
+  
+  
   return (
     <div className="d-flex bg-color-2 p-3" style={{ height: "100vh", width: "100%" }}>
       <div style={{ flex: "0 0 280px", height: "100%" }}>
@@ -39,6 +40,7 @@ const Profile = async () => {
           <div>
             <div className="container">
               <div className="row">
+                 
                 <div className="col-md-6 mb-3">
                   <RecentTrips />
                 </div>
